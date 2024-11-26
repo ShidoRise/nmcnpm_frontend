@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.register__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 95vh;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.register__container form {
+    background: rgb(248, 230, 207);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    font-size: 14px;
+    color: #555;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+input:focus {
+    border-color: #ff006f;
+    box-shadow: 0 0 5px rgba(255, 0, 132, 0.5);
+}
+
+.register__button {
+    padding: 10px 20px;
+    background-color: #762E2E;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.register__button:hover {
+    background-color: #FFD700;
+    color: #000000
+}
+
+.register__title {
+    font-size: 28px;
+    align-items: center;
+    text-align: center;
+    font-weight: 700;
+}
+
+.register__inputlabel {
+    padding: px;
+}

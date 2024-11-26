@@ -1,0 +1,24 @@
+.swiper-container {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+.swiper-slide img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+}
+
+.swiper-button-next, .swiper-button-prev {
+    color: #eca899;
+
+}
+.swiper-button-next:hover, .swiper-button-prev:hover {
+    width: 20px;
+}
