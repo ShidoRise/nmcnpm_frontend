@@ -5,6 +5,7 @@ import new1 from '../../assets/images/new1.jpeg';
 import new2 from '../../assets/images/new2.jpeg';
 import new3 from '../../assets/images/new3.jpeg';
 
+// thẻ quảng bá
 function Cards () {
     return (
         <div className="cards">
@@ -16,21 +17,21 @@ function Cards () {
                         src={new1}
                         text='Welcome Ramadan in a special way with our delicious pizza'
                         label='Pizza Ramadan Mubarak'
-                        path='/products'
+                        path='/product/60'
                         />
 
                         <Carditem
                         src={new2}
                         text='A hearty dish with fragrant grilled chicken, special sauce, fresh and crispy vegetables and soft and chewy crust'
                         label='Chicken Tacos'
-                        path='/products'
+                        path='/product/58'
                         />
 
                         <Carditem
                         src={new3}
                         text='Discover new flavors with this creative hamburger, combining soft crust and juicy grilled meat'
                         label='Chezzy Burger'
-                        path='/products'
+                        path='/product/62'
                         />
                     </ul>
                 </div>

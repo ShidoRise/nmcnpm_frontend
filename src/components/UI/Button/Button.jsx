@@ -2,8 +2,8 @@ import React from 'react';
 import './Button.css';
 import {Link} from 'react-router-dom';
 
-
-const STYLES = ['btn--primary', 'btn--outline', 'btn--home', 'btn--food']
+// Button homepage
+const STYLES = ['btn--primary', 'btn--outline', 'btn--home', 'btn--food', 'btn--cart']
 const SIZES = ['btn--medium', 'btn--large']
 
 export const Button = (

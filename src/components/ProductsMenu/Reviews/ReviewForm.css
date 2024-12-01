@@ -1,0 +1,72 @@
+
+.review-form-box {
+    width: 700px;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    top: 30px;
+}
+
+
+.review-form-box h4 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+
+.review-form-box div {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+
+
+
+.review-form-box textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    resize: vertical;
+    margin-bottom: 15px;
+}
+
+.star-box button {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.1s ease-in-out;
+    padding: 5px;
+    margin: 0 2px;
+}
+.star-box label {
+    font-size: 16px;
+    font-weight: 550;
+}
+
+.star-box button:hover {
+    color: blue  !important   ;
+    transform: scale(1.1);
+}
+
+
+.star-box button:active {
+    color: blue     !important;
+    transform: scale(0.95);
+}
+
+.button-submitform {
+    padding: 10px;
+    background: #007bff;
+    border-radius: 8px;
+    border: none;
+    color: #fff;
+}
+.button-submitform:hover {
+    background-color: #0056b3;
+}

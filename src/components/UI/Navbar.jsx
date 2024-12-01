@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import {Button} from './Button/Button';
 import './Navbar.css';
 import logowithtext from '../../assets/images/logowithtext.PNG'
+// header navbar
 function Navbar() {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
@@ -38,29 +39,29 @@ function Navbar() {
                     <ul className={click ? 'nav-menu active' : 'nav-menu'}>
                         {!isLoggedIn ? (
                             <li className='nav-item'>
-                            <Link to='/home' className='nav-links' onClick={closeMobileMenu}>
-                            Home</Link>
+                            <NavLink to='/' className='nav-links' activeClassName="active" onClick={closeMobileMenu}>
+                            Home</NavLink>
                         </li>
                         ) : (
                             <li className='nav-item'>
-                            <Link to='/dashboard' className='nav-links' onClick={closeMobileMenu}>
-                            Home</Link>
+                            <NavLink to='/dashboard' className='nav-links' activeClassName="active" onClick={closeMobileMenu}>
+                            Home</NavLink>
                         </li>
                         )}
 
                         <li className='nav-item'>
-                            <Link to='/products' className='nav-links' onClick={closeMobileMenu}>
-                            Products</Link>
+                            <NavLink to='/products' className='nav-links' activeClassName="active" onClick={closeMobileMenu}>
+                            Products</NavLink>
                         </li>
 
                         <li className='nav-item'>
-                            <Link to='/shoppingcart' className='nav-links' onClick={closeMobileMenu}>
-                            Shopping Cart</Link>
+                            <NavLink to='/shoppingcart' className='nav-links' activeClassName="active" onClick={closeMobileMenu}>
+                            Shopping Cart</NavLink>
                         </li>
 
                         <li className='nav-item'>
-                            <Link to='/voucher' className='nav-links' onClick={closeMobileMenu}>
-                            Voucher</Link>
+                            <NavLink to='/voucher' className='nav-links' activeClassName="active" onClick={closeMobileMenu}>
+                            Voucher</NavLink>
                         </li>
 
                         {isLoggedIn ? (

@@ -1,12 +1,12 @@
 import React from 'react';
-import SlideSection from '../components/UI/SlideSection';
+import SlideSectionLogin from '../components/UI/SlideSectionLogin';
 import Footer from '../components/UI/Footer';
 import Cards from '../components/UI/Cards';
 
 function Dashboard () {
     return (
         <>
-            <SlideSection />
+            <SlideSectionLogin />
             <Cards/>
             <Footer />
         </>

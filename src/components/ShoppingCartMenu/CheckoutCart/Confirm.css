@@ -1,0 +1,170 @@
+.confirm-container {
+    padding: 2rem 4rem;
+}
+
+.confirm-container h2 {
+    font-weight: 400;
+    font-size: 30px;
+    text-align: center;
+}
+
+.confirm-container .confirm-title {
+    margin: 2rem 0 1rem 0;
+}
+.start-shopping {
+    margin-top: 1rem;
+}
+.start-shopping a {
+    color: gray;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+.start-shopping a span {
+    margin-left: 0.5rem;
+
+}
+.confirm-container .confirm-title h3 {
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+.confirm-empty {
+    font-size: 20px;
+    margin-top: 2rem;
+    color: rgb(84, 84, 84);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.confirm-item,
+.confirm-container .confirm-title {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    column-gap: 0.5rem;
+}
+.confirm-item {
+    border-top: 1px solid rgb(187, 187, 187);
+    padding: 1rem 0;
+}
+
+.confirm-container .confirm-title .confirm-product {
+    padding-left: 0.5rem;
+}
+.confirm-container .confirm-title .confirm-total {
+    padding-right: 0.5rem;
+    justify-self: right;
+}
+.confirm-item .confirm-productitem {
+    display: flex;
+}
+.confirm-item .confirm-productitem h3 {
+    font-weight: 400;
+}
+.confirm-item .confirm-productitem button {
+    border: none;
+    outline: none;
+    margin-top: 0.7rem;
+    cursor: pointer;
+    background: none;
+    color: gray;
+}
+.confirm-item .confirm-productitem button:hover {
+    color: black;
+}
+.confirm-item .confirm-product-quantity {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 130px;
+    max-width: 100%;
+    border: 0.5px solid rgb(177, 177, 177);
+    border-radius: 5px;
+}
+
+.confirm-item .confirm-product-quantity button {
+    border: none;
+    outline: none;
+    background: none;
+    padding: 0.7rem 1.5rem;
+    cursor: pointer;
+}
+
+.confirm-item .confirm-product-quantity button:hover {
+    color: black !important;
+    transform: scale(1.4);
+}
+
+.confirm-item .confirm-product-quantity .confirm-count {
+    padding: 0.7rem 0;
+}
+
+.confirm-item .confirm-product-totalprice {
+    padding-right: 0.5rem;
+    justify-self: right;
+    font-weight: 700;
+}
+
+.confirm-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-top: 1px solid rgb(187, 187, 187);
+    padding-top: 2rem;
+}
+
+.confirm-checkout {
+    width: 270px;
+    max-width: 100%;
+}
+
+.confirm-checkout .confirm-subtotal {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+.confirm-checkout .confirm-amount {
+    font-weight: 700;
+}
+
+.confirm-checkout p {
+    font-size: 14px;
+    font-weight: 200;
+    margin: 0.5rem 0;
+}
+.confirm-checkout button {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    font-weight: 400;
+    letter-spacing: 1.15px;
+    background-color: #4b70e2;
+    color: #f9f9f9;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.back-cart {
+    padding: 10px;
+    text-decoration: none;
+    color: #fff;
+    background: #4b70e2;
+    border-radius: 5px;
+    bottom: 0;
+    font-size: 17px;
+}
+
+.back-cart:hover {
+    text-decoration: none;
+}
+
+.confirm-summary Link:hover {
+    text-decoration: none;
+}
+.confirm-summary Link {
+    text-decoration: none;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
 
+// các thẻ quảng bá
 function Carditem (props) {
     return (
         <>

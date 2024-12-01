@@ -4,6 +4,7 @@ import { Button } from './Button/Button';
 import { Link } from 'react-router-dom';
 import logowithtext from '../../assets/images/logowithtext.PNG';
 
+// footer
 function Footer() {
   return (
     <div className='footer-container'>
@@ -15,6 +16,7 @@ function Footer() {
         For any issues related to our store, please send it here!
         </p>
         <div className='input-areas'>
+          {/* gửi yêu cầu khác */}
   <form>
     <input
         className='footer-input'

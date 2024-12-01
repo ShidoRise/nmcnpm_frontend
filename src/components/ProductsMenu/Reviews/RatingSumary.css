@@ -1,0 +1,58 @@
+/* Container for the rating summary */
+.rating-summary-box {
+    top: 30px;
+    width: 400px;
+    max-width: 600px;
+    margin-right: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+
+.rating-summary-box h4 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.rating-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: #333;
+}
+.rating-bar .bar {
+    flex: 1;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin: 0 10px;
+    height: 10px;
+    position: relative;
+}
+
+.rating-bar .bar-fill {
+    border-radius: 5px;
+    transition: width 0.5s ease-in-out;
+}
+
+.rating-bar span:last-child {
+    font-size: 14px;
+    color: #333;
+}
+
+.rating-bar span:first-child {
+    font-weight: bold;
+    font-size: 16px;
+    color: #007bff;
+}
+
+.rating-summary-box p {
+    text-align: center;
+    color: #777;
+    font-size: 16px;
+    font-style: italic;
+}

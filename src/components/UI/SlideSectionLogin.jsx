@@ -3,11 +3,13 @@ import { Button } from './Button/Button';
 import './SlideSection.css';
 import '../../App.css';
 import { GiFullPizza } from "react-icons/gi";
+import { FaCcAmazonPay } from "react-icons/fa";
+import { IoFastFoodSharp } from "react-icons/io5";
 import logountext from '../../assets/images/logountext.PNG';
 import Swipercarousel from './Swiperedit/Swipercarousel';
 
-// quảng bá đầu trang khi chưa đăng nhập
-function SlideSection () {
+// quảng bá đầu trang khi đã đăng nhập
+function SlideSectionLogin () {
     return (
         <div className='hero-container'>
             <div className="hero-welcome">
@@ -21,16 +23,16 @@ function SlideSection () {
             </div>
             <p class="hero-hello">What do you want to eat today?</p>
             <div className='hero-btns'>
-                <Button className='btns' buttonStyle='btn--food' buttonSize='btn--large'>
-                    GET STARTED <i class="fa-solid fa-right-to-bracket"></i>
+                <Button className='btns' buttonStyle='btn--food' buttonSize='btn--large' to='products'>
+                BUY FOOD NOW <IoFastFoodSharp />
                 </Button>
 
-                <Button className='btns' buttonStyle='btn--food' buttonSize='btn--large' to='/products'>
-                    TODAY's DELICIOUS FOOD <i class="fa-solid fa-pizza-slice"></i>
+                <Button className='btns' buttonStyle='btn--food' buttonSize='btn--large' to='/shoppingcart'>
+                PAY NOW <FaCcAmazonPay />
                 </Button>
             </div>
         </div>
     );
 }
 
-export default SlideSection;
+export default SlideSectionLogin;

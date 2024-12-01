@@ -7,7 +7,7 @@
   font-size: 1.2rem;
   position: sticky;
   top: 0;
-  z-index: 999;
+  z-index: 999999999999999999999999999999999999999999999999999999999;
 }
 
 .navbar-container {
@@ -82,7 +82,15 @@
   text-decoration: none;
   color: #FFD700;
 }
-
+.nav-links.active {
+  border-bottom: 4px solid #fff;
+  transition: all 0.2s ease-out;
+  text-decoration: none;
+  color: #FFD700;
+}
+.nav-links-mobile.active {
+  color: #FFD700;
+}
 .fa-bars {
   color: #fff;
 }

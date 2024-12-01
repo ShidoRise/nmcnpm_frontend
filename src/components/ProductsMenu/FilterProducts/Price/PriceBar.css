@@ -1,0 +1,54 @@
+.price-bar {
+    width: 130px;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  .price-title {
+    background-color: #fff;
+    color: black;
+    border: 2px solid #602020;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 110px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+  }
+  .price-title:hover {
+    color: #fff;
+  }
+
+  .filter-price-btn {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #602020;
+    padding: 8px;
+    margin: 5px 0;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    text-align: center;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+
+  .filter-price-btn.active {
+    background-color: #f9f94d;
+    color: black;
+  }
+
+  .filter-price-btn:hover {
+    background-color: #f1f1f1;
+  }
+
+  .price-bar .filter-price-btn {
+    display: none;
+  }
+
+  .price-bar.active .filter-price-btn {
+    display: block;
+  }

@@ -1,4 +1,6 @@
 import "./App.css";
+import "react-toastify/dist/ReactToastify.css"
+import { toast, ToastContainer } from 'react-toastify';
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Navbar from "./components/UI/Navbar";
@@ -10,7 +12,12 @@ import SignUp from "./pages/SignUp";
 import Register from "./components/Account/Register";
 import Swipercarousel from "./components/UI/Swiperedit/Swipercarousel";
 import Dashboard from "./pages/Dashboard";
+import ProductDetail from "./components/ProductsMenu/Details/ProductDetail";
+import PayMoney from "./components/ShoppingCartMenu/CheckoutCart/PayMoney";
+import Confirm from "./components/ShoppingCartMenu/CheckoutCart/Confirm";
+
 function App() {
+  // kiểm tra đăng nhập
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
@@ -43,6 +50,7 @@ function App() {
   };
   return (
     <>
+      <ToastContainer />
       <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
       <Routes>
         <Route path="/" exact element={<Home />} />
@@ -52,7 +60,10 @@ function App() {
         <Route path="/voucher" element={<Voucher />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/Swipercarousel" element={<Swipercarousel />} />
+        <Route path="/paymoney" element={<PayMoney />} />
+        <Route path="/confirm" element={<Confirm />} />
       </Routes>
     </>
   );
