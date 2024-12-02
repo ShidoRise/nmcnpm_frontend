@@ -1,7 +1,7 @@
 const ChangeAddress = (props) => {
     return(
-        <div className="modal">
-            <div className="modal-content">
+        <div className="modal-address">
+            <div className="modal-content-address">
                 <h4>New Address</h4>
                 
                 <form className='new-address' action="/submit" method="POST" 

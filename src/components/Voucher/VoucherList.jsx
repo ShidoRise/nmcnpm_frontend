@@ -8,7 +8,7 @@ const VoucherList = ({ vouchers }) => {
         <div className="voucher-card" key={voucher.id}>
           <h3>{voucher.title}</h3>
           <p>Voucher: <strong>{voucher.code}</strong></p>
-          <p>Discount: <strong>{voucher.discount}{voucher.type=="value" ? "$" : "%"}</strong></p>
+          <p>Discount: <strong>{voucher.discount}{voucher.type==="value" ? "$" : "%"}</strong></p>
           <p>Expiry Date: {voucher.expiryDate}</p>
         </div>
       ))}

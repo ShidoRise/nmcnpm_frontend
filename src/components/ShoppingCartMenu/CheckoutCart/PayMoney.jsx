@@ -80,9 +80,9 @@ const PayMoney = (props) => {
                 <div className='select-voucher' onClick={()=>{openSelectVoucher()}}>Select Voucher</div>
                 {selectedVoucher && (
                     <div className="selected-voucher">
-                    <h2>Voucher đã chọn:</h2>
-                    <p>{selectedVoucher.title}</p>
-                    <p>Mã: <strong>{selectedVoucher.code}</strong></p>
+                    <h4>Selected Voucher:</h4>
+                    <div>{selectedVoucher.title}</div>
+                    <div>Mã: <strong>{selectedVoucher.code}</strong></div>
                     </div>
                 )}
                 {showSelectVoucher&&(
@@ -94,9 +94,14 @@ const PayMoney = (props) => {
                 )}
             </div>
 
-            <div className="confirm-subtotal">
-                <span>Subtotal</span>
-                <span className="confirm-amount">${cart.cartTotalAmount}</span>
+            <div className="paymoney-subtotal-container">
+                <div className="paymoney-subtotal">Subtotal:</div>
+                <div className="paymoney-amount">${
+                selectedVoucher? (cart.cartTotalAmount-(selectedVoucher.type==="value"?selectedVoucher.discount:(selectedVoucher.discount*cart.cartTotalAmount/100))):cart.cartTotalAmount
+                }</div>
+                <div className="order">
+                    <button>Order</button>
+                </div>
             </div>
 
         </div>

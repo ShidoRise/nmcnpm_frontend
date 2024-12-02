@@ -1,5 +1,7 @@
 .main{
-    
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
 }
 .address-container{
     background-color: #f8f9fa;
@@ -35,7 +37,7 @@
 .change-address:hover{
     text-decoration: underline;
 }
-.modal {
+.modal-address {
     position: fixed; /* Giữ popup cố định trên màn hình */
     top: 0;
     left: 0;
@@ -46,9 +48,8 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    
 }
-.modal-content {
+.modal-content-address {
     background: white;
     padding: 20px;
     border-radius: 10px;
@@ -57,6 +58,8 @@
     display: flex;
     text-align: center;
     justify-content: center;
+    flex-direction: column;
+
     
 }
 .new-address{
@@ -69,6 +72,12 @@
     
 }
 .new-address button{
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
     width: fit-content;
     margin: 10px 0px 10px auto;
 }
@@ -97,7 +106,14 @@
 .select-voucher:hover{
     text-decoration: underline;
 }
-.modal {
+.selected-voucher {
+    margin-top: 20px;
+    padding: 5px;
+    background: #e6f7ff;
+    border: 1px solid #91d5ff;
+    border-radius: 5px;
+  }
+.modal-voucher {
     position: fixed;
     top: 0;
     left: 0;
@@ -108,26 +124,29 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    padding-top: 100px;
   }
   
-  .modal-content {
+  .modal-content-voucher {
     background: #fff;
     width: 400px;
     max-width: 90%;
     max-height: 80vh; /* Chiều cao tối đa của modal */
-    padding: 20px;
+    padding: 20px 20px 0px 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow-y: auto; /* Kích hoạt cuộn dọc nếu nội dung vượt quá chiều cao */
   }
   
   .voucher-list {
+    flex: 1;
     list-style: none;
     padding: 0;
     margin: 0;
   }
   
   .voucher-item {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -137,20 +156,72 @@
     border-radius: 5px;
   }
   
-  .voucher-item h3 {
+  .voucher-item h4 {
     margin: 0;
   }
   
-  .close-button {
-    background: #ff4d4f;
+  .voucher-item button{
+    border: 1px solid rgb(36, 36, 36);
+    border-radius: 3px;
+    padding: 3px;
+
+  }
+
+  .modal-voucher-footer {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    width: 100%; /* Chiếm toàn bộ chiều ngang */
+    background: #fff;
+    padding: 15px 20px;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    z-index: 100; /* Đảm bảo nó luôn nổi trên các phần tử khác */
+  }
+  
+  .save-button {
+    background: #4caf50;
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
   }
   
-  .close-button:hover {
-    background: #e33d3f;
+  .save-button:hover {
+    background: #45a049;
   }
   
+  .paymoney-subtotal-container{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%; /* Chiếm toàn bộ chiều ngang */
+    background: #fff;
+    padding: 15px 20px;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: flex-end;
+    z-index: 100; 
+    gap: 10px;
+  }
+  .paymoney-subtotal{
+    font-size: 25px;
+    padding: 5px;
+  }
+  .paymoney-amount{
+    font-size: 25px;
+    padding: 5px;
+  }
+  .order button{
+    font-size: 20px;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #4b70e2;
+    color: white;
+  }
