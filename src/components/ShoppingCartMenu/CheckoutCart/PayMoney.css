@@ -118,6 +118,22 @@
     background: #e6f7ff;
     border: 1px solid #91d5ff;
     border-radius: 5px;
+    display: grid;
+    grid-template-rows: auto 1fr; /* Hai hàng: một cho góc trên, một cho các thành phần còn lại */
+    grid-template-columns: auto 1fr; /* Một cột */
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .selected-voucher h4 {
+    font-size: 20px;
+  }
+  .selected-voucher button{
+    padding: 0px 5px;
+    margin: 0;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    justify-self: end;
   }
 
 /*cửa sổ chọn voucher*/

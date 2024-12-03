@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import './PayMoney.css';
 import { HiLocationMarker } from "react-icons/hi";
 import { BiSolidDiscount } from "react-icons/bi";
+import { IoClose } from "react-icons/io5";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 import { MdPayment } from "react-icons/md";
 import Popup from 'reactjs-popup';
@@ -130,9 +131,10 @@ const PayMoney = (props) => {
                 <div className='select-voucher' onClick={()=>{openSelectVoucher()}}>Select Voucher</div>
                 {selectedVoucher && (
                     <div className="selected-voucher">
-                    <h4>Selected Voucher:</h4>
-                    <div>{selectedVoucher.title}</div>
-                    <div>Mã: <strong>{selectedVoucher.code}</strong></div>
+                        <h4>Selected Voucher:</h4>
+                        <button onClick={()=>setSelectedVoucher(null)}><IoClose /></button>
+                        <div>{selectedVoucher.title}</div>
+                        <div>Mã: <strong>{selectedVoucher.code}</strong></div>
                     </div>
                 )}
                 {showSelectVoucher&&(
@@ -185,7 +187,7 @@ const PayMoney = (props) => {
             <div className="paymoney-subtotal-container">
                 <div className="paymoney-subtotal">Subtotal:</div>
                 <div className="paymoney-amount">${
-                selectedVoucher? (cart.cartTotalAmount-(selectedVoucher.type==="value"?selectedVoucher.discount:(selectedVoucher.discount*cart.cartTotalAmount/100))):cart.cartTotalAmount
+                Math.max(0,selectedVoucher? (cart.cartTotalAmount-(selectedVoucher.type==="value"?selectedVoucher.discount:(selectedVoucher.discount*cart.cartTotalAmount/100))):cart.cartTotalAmount)
                 }</div>
                 <div className="order">
                     <button onClick={()=>handleClickOrder()}>Order</button>
