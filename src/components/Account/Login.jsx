@@ -5,8 +5,8 @@ import './Login.css';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
-  const username = useRef("");
-  const password = useRef("");
+  const username = useRef();
+  const password = useRef();
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({});
   const [allUser, setAllUser] = useState([]);
