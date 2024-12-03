@@ -130,7 +130,7 @@
   }
   .selected-voucher button{
     padding: 0px 5px;
-    margin: 0;
+    margin-left: 10px;
     border: 1px solid #aaa;
     border-radius: 3px;
     justify-self: end;

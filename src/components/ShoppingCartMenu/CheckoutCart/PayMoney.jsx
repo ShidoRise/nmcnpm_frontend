@@ -131,9 +131,10 @@ const PayMoney = (props) => {
                 <div className='select-voucher' onClick={()=>{openSelectVoucher()}}>Select Voucher</div>
                 {selectedVoucher && (
                     <div className="selected-voucher">
-                        <h4>Selected Voucher:</h4>
+                        <h4>Selected Voucher</h4>
                         <button onClick={()=>setSelectedVoucher(null)}><IoClose /></button>
                         <div>{selectedVoucher.title}</div>
+                        <div></div>
                         <div>Mã: <strong>{selectedVoucher.code}</strong></div>
                     </div>
                 )}
