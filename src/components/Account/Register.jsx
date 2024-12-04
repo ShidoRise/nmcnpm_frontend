@@ -4,7 +4,7 @@ import "./Register.css";
 
 const Register = () => {
   const username = useRef("");
-  const yourname = useRef("");
+  const name = useRef("");
   const email = useRef("");
   const password = useRef("");
   const confirmPassword = useRef("");
@@ -28,7 +28,7 @@ const Register = () => {
     }
     const user = {
       username: username.current.value,
-      yourname: yourname.current.value,
+      name: name.current.value,
       email: email.current.value,
       password: password.current.value,
     };
@@ -38,7 +38,7 @@ const Register = () => {
       console.log(res.data);
       setError("");
       username.current.value = "";
-      yourname.current.value = "";
+      name.current.value = "";
       email.current.value = "";
       password.current.value = "";
       confirmPassword.current.value = "";
@@ -66,13 +66,13 @@ const Register = () => {
           required
         />
 
-        <label className="register__inputlabel" htmlFor="yourname">
+        <label className="register__inputlabel" htmlFor="name">
           Your Name:
         </label>
         <input
           type="text"
-          id="yourname"
-          ref={yourname}
+          id="name"
+          ref={name}
           placeholder="Enter your name"
           required
         />
