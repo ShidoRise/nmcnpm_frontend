@@ -2,7 +2,7 @@
 .main{
     display: flex;
     flex-direction: column;
-    min-height: 100vh; 
+    min-height: 100vh;
 }
 .address-container{
     background-color: #f8f9fa;
@@ -20,7 +20,7 @@
     margin: 10px;
     gap: 5px;
     display: flex;
-      
+
 }
 .user-name{
     font-weight: 500;
@@ -33,7 +33,7 @@
     margin-right: 50px;
     color: rgb(40, 40, 254);
     cursor: pointer;
-    
+
 }
 .change-address:hover{
     text-decoration: underline;
@@ -64,7 +64,7 @@
     justify-content: center;
     flex-direction: column;
 
-    
+
 }
 .new-address{
     display: flex;
@@ -73,7 +73,7 @@
     justify-content: center;
     margin: 10px auto;
     width: 80%;
-    
+
 }
 .new-address button{
     background: #4caf50;
@@ -151,7 +151,7 @@
     z-index: 1000;
     padding-top: 100px;
   }
-  
+
   .modal-content-voucher {
     background: #fff;
     width: 400px;
@@ -162,14 +162,14 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow-y: auto; /* Kích hoạt cuộn dọc nếu nội dung vượt quá chiều cao */
   }
-  
+
   .voucher-list {
     flex: 1;
     list-style: none;
     padding: 0;
     margin: 10px;
   }
-  
+
   .voucher-item {
     width: 100%;
     display: flex;
@@ -180,11 +180,11 @@
     border: 1px solid #ddd;
     border-radius: 5px;
   }
-  
+
   .voucher-item h4 {
     margin: 0;
   }
-  
+
   .voucher-item button{
     border: 1px solid rgb(36, 36, 36);
     border-radius: 3px;
@@ -204,7 +204,7 @@
     text-align: center;
     z-index: 100; /* Đảm bảo nó luôn nổi trên các phần tử khác */
   }
-  
+
   .save-button {
     background: #4caf50;
     color: white;
@@ -213,11 +213,11 @@
     border-radius: 5px;
     cursor: pointer;
   }
-  
+
   .save-button:hover {
     background: #45a049;
   }
-  
+
 
 
   .paymoney-subtotal-container{
@@ -233,7 +233,7 @@
     text-align: center;
     align-items: center;
     justify-content: flex-end;
-    z-index: 100; 
+    z-index: 100;
     gap: 10px;
   }
   .paymoney-subtotal{
@@ -270,7 +270,7 @@
     margin: 0 auto;
     align-items: center;
   }
-  
+
   .select-payment {
     margin: 10px;
     color: brown;
@@ -279,7 +279,7 @@
     gap: 5px;
     font-size: 20px;
   }
-  
+
   .payment-method select {
     width: fit-content;
     padding: 10px;
@@ -289,7 +289,7 @@
     border-radius: 5px;
     margin-left: auto;
   }
-  
+
   /*cửa sổ đặt hàng thành công*/
 
 .modal-overlay-order-success {

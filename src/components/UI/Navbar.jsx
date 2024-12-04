@@ -3,13 +3,16 @@ import { Link, NavLink } from "react-router-dom";
 import { Button } from "./Button/Button";
 import "./Navbar.css";
 import logowithtext from "../../assets/images/logowithtext.PNG";
-// header navbar
+
 function Navbar() {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Giả lập trạng thái đăng nhập
+  const [dropdown, setDropdown] = useState(false); // Quản lý menu dropdown
+
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
+  const toggleDropdown = () => setDropdown(!dropdown); // Toggle dropdown menu
 
   const showButton = () => {
     if (window.innerWidth <= 960) {
@@ -23,6 +26,12 @@ function Navbar() {
     showButton();
   }, []);
   window.addEventListener("resize", showButton);
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setDropdown(false);
+  };
+
   return (
     <>
       <nav className="navbar">
@@ -36,30 +45,16 @@ function Navbar() {
             <i className={click ? "fas fa-times" : "fas fa-bars"}></i>
           </div>
           <ul className={click ? "nav-menu active" : "nav-menu"}>
-            {!isLoggedIn ? (
-              <li className="nav-item">
-                <NavLink
-                  to="/"
-                  className="nav-links"
-                  activeClassName="active"
-                  onClick={closeMobileMenu}
-                >
-                  Home
-                </NavLink>
-              </li>
-            ) : (
-              <li className="nav-item">
-                <NavLink
-                  to="/dashboard"
-                  className="nav-links"
-                  activeClassName="active"
-                  onClick={closeMobileMenu}
-                >
-                  Home
-                </NavLink>
-              </li>
-            )}
-
+            <li className="nav-item">
+              <NavLink
+                to={isLoggedIn ? "/dashboard" : "/"}
+                className="nav-links"
+                activeClassName="active"
+                onClick={closeMobileMenu}
+              >
+                Home
+              </NavLink>
+            </li>
             <li className="nav-item">
               <NavLink
                 to="/products"
@@ -70,7 +65,6 @@ function Navbar() {
                 Products
               </NavLink>
             </li>
-
             <li className="nav-item">
               <NavLink
                 to="/shoppingcart"
@@ -81,7 +75,6 @@ function Navbar() {
                 Shopping Cart
               </NavLink>
             </li>
-
             <li className="nav-item">
               <NavLink
                 to="/voucher"
@@ -94,14 +87,27 @@ function Navbar() {
             </li>
 
             {isLoggedIn ? (
-              <li className="nav-item">
-                <Link
-                  to="/"
-                  className="nav-links-mobile"
-                  onClick={closeMobileMenu}
+              <li className="nav-item dropdown">
+                <div
+                  className="nav-links dropdown-toggle"
+                  onClick={toggleDropdown}
                 >
-                  Log Out
-                </Link>
+                  Account
+                </div>
+                {dropdown && (
+                  <div className="dropdown-menu">
+                    <Link
+                      to="/profile"
+                      className="dropdown-item"
+                      onClick={closeMobileMenu}
+                    >
+                      Profile
+                    </Link>
+                    <div className="dropdown-item" onClick={handleLogout}>
+                      Log Out
+                    </div>
+                  </div>
+                )}
               </li>
             ) : (
               <li className="nav-item">
@@ -116,7 +122,7 @@ function Navbar() {
             )}
           </ul>
           {button && !isLoggedIn && (
-            <Button buttonStyle="btn-outline">LOGIN</Button>
+            <Button buttonStyle="btn-outline">SIGN UP</Button>
           )}
         </div>
       </nav>

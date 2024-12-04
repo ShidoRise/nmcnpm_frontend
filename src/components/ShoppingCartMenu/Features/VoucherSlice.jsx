@@ -3,12 +3,77 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // Dữ liệu giả để lấy danh sách voucher từ server (thay bằng API thật nếu cần)
 const fetchVouchersFromServer = async () => {
   return [
-		{ id: 1, title: "Discount 10%", code: "SAVE10%", discount: 10, type: "percent", expiryDate: "2024-12-31" },
-        { id: 2, title: "Discount 10$", code: "SAVE10$", discount: 10, type: "value", expiryDate: "2024-11-30" },
-        { id: 3, title: "Discount 20%", code: "SAVE20%", discount: 20, type: "percent", expiryDate: "2024-12-15" },
-        { id: 4, title: "Discount 15$", code: "SAVE15$", discount: 15, type: "value", expiryDate: "2024-12-15" },
-        { id: 5, title: "Discount 25$", code: "SAVE25$", discount: 25, type: "value", expiryDate: "2024-12-15" },
-        { id: 6, title: "Discount 35$", code: "SAVE35$", discount: 35, type: "value", expiryDate: "2024-12-15" },
+		{ id: 1,
+		  title: "Discount 10%",
+		  path: "https://res.cloudinary.com/dxxiercxx/image/upload/v1733229528/Designer_9_jybgns.jpg",
+		  code: "SAVE10%",
+		  discount: 10,
+		  type: "percent",
+		  expiryDate: "2024-12-31"
+		},
+
+        { id: 2,
+		  title: "Discount 10$",
+		  path: "https://res.cloudinary.com/dxxiercxx/image/upload/v1733229527/Designer_11_nfkdec.jpg",
+		  code: "SAVE10$",
+		  discount: 10,
+		  type: "value",
+		  expiryDate: "2024-11-30"
+		},
+
+        { id: 3,
+		  title: "Discount 20%",
+		  path: "https://res.cloudinary.com/dxxiercxx/image/upload/v1733229528/Designer_10_ld22uo.jpg",
+		  code: "SAVE20%",
+		  discount: 20,
+		  type: "percent",
+		  expiryDate: "2024-12-15"
+		},
+
+        { id: 4,
+		  title: "Discount 15$",
+		  path: "https://res.cloudinary.com/dxxiercxx/image/upload/v1733229527/Designer_15_fnfnd8.jpg",
+		  code: "SAVE15$",
+		  discount: 15,
+		  type: "value",
+		  expiryDate: "2024-12-15"
+		},
+
+        { id: 5,
+		  title: "Discount 25$",
+		  path: "https://res.cloudinary.com/dxxiercxx/image/upload/v1733229527/Designer_12_zkbost.jpg",
+		  code: "SAVE25$",
+		  discount: 25,
+		  type: "value",
+		  expiryDate: "2024-12-15"
+		},
+
+        { id: 6,
+		  title: "Discount 35$",
+		  path: "https://res.cloudinary.com/dxxiercxx/image/upload/v1733229527/Designer_14_l2sxpt.jpg",
+		  code: "SAVE35$",
+		  discount: 35,
+		  type: "value",
+		  expiryDate: "2024-12-15"
+		},
+
+		{ id: 7,
+			title: "Discount 30%",
+			path: "https://res.cloudinary.com/dxxiercxx/image/upload/v1733229526/Designer_16_dmbich.jpg",
+			code: "SAVE30$",
+			discount: 30,
+			type: "value",
+			expiryDate: "2024-12-15"
+		},
+
+		{ id: 8,
+			title: "Discount 50%",
+			path: "https://res.cloudinary.com/dxxiercxx/image/upload/v1733229529/Designer_17_csggfz.jpg",
+			code: "SAVE50%",
+			discount: 50,
+			type: "value",
+			expiryDate: "2024-12-15"
+		},
   ];
 };
 
