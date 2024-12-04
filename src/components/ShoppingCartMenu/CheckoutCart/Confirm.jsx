@@ -68,7 +68,7 @@ const Confirm = () => {
                                 <span className="confirm-amount">${cart.cartTotalAmount}</span>
                             </div>
                             {/* Chuyển sang thanh toán */}
-                            <ButtonMenu to="/paymon">Pay</ButtonMenu>
+                            <ButtonMenu to="/paymoney">Pay</ButtonMenu>
                         </div>
                     </div>
                 </div>
