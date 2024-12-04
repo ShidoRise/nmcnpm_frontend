@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../Account/authSllice";
 import { Button } from "./Button/Button";
 import "./Navbar.css";
 import logowithtext from "../../assets/images/logowithtext.PNG";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function Navbar() {
+const Navbar = () => {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Giả lập trạng thái đăng nhập
-  const [dropdown, setDropdown] = useState(false); // Quản lý menu dropdown
+  const [dropdown, setDropdown] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user = useSelector((state) => state.auth.user);
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
-  const toggleDropdown = () => setDropdown(!dropdown); // Toggle dropdown menu
+  const toggleDropdown = () => setDropdown(!dropdown);
 
   const showButton = () => {
     if (window.innerWidth <= 960) {
@@ -24,12 +32,20 @@ function Navbar() {
 
   useEffect(() => {
     showButton();
+    window.addEventListener("resize", showButton);
+    return () => window.removeEventListener("resize", showButton);
   }, []);
-  window.addEventListener("resize", showButton);
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    dispatch(logout());
     setDropdown(false);
+    navigate("/");
+    closeMobileMenu();
+
+    toast.success("Logged out successfully!", {
+      position: "bottom-right",
+      autoClose: 2000,
+    });
   };
 
   return (
@@ -94,20 +110,18 @@ function Navbar() {
                 >
                   Account
                 </div>
-                {dropdown && (
-                  <div className="dropdown-menu">
-                    <Link
-                      to="/profile"
-                      className="dropdown-item"
-                      onClick={closeMobileMenu}
-                    >
-                      Profile
-                    </Link>
-                    <div className="dropdown-item" onClick={handleLogout}>
-                      Log Out
-                    </div>
+                <div className={`dropdown-menu ${dropdown ? "show" : ""}`}>
+                  <Link
+                    to="/profile"
+                    className="dropdown-item"
+                    onClick={closeMobileMenu}
+                  >
+                    Profile
+                  </Link>
+                  <div className="dropdown-item" onClick={handleLogout}>
+                    Log Out
                   </div>
-                )}
+                </div>
               </li>
             ) : (
               <li className="nav-item">
@@ -116,18 +130,18 @@ function Navbar() {
                   className="nav-links-mobile"
                   onClick={closeMobileMenu}
                 >
-                  Sign Up
+                  Login
                 </Link>
               </li>
             )}
           </ul>
           {button && !isLoggedIn && (
-            <Button buttonStyle="btn-outline">SIGN UP</Button>
+            <Button buttonStyle="btn-outline">LOGIN</Button>
           )}
         </div>
       </nav>
     </>
   );
-}
+};
 
 export default Navbar;

@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
-import { registerUser } from "../API/api";
+import { registerUser } from "../API/accountApi";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Register.css";
 
 const Register = () => {
@@ -15,8 +17,6 @@ const Register = () => {
   const gender = useRef("");
   const address = useRef("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const passwordRegex =
     /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$])[0-9a-zA-Z!@#$]+$/;
@@ -24,9 +24,37 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
     setIsLoading(true);
+
+    if (password.current.value !== confirmPassword.current.value) {
+      toast.error("Passwords do not match!", {
+        position: "bottom-right",
+        autoClose: 3000,
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (!passwordRegex.test(password.current.value)) {
+      toast.error(
+        "Password must contain uppercase, lowercase, number and special character!",
+        {
+          position: "bottom-right",
+          autoClose: 3000,
+        }
+      );
+      setIsLoading(false);
+      return;
+    }
+
+    if (!phoneRegex.test(phoneNumber.current.value)) {
+      toast.error("Phone number must be 10 digits!", {
+        position: "bottom-right",
+        autoClose: 3000,
+      });
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const data = await registerUser({
@@ -39,10 +67,18 @@ const Register = () => {
         gender: gender.current.value,
         address: address.current.value,
       });
-      setSuccess("Registration successful!");
+
+      toast.success("Registration successful!", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+
       setTimeout(() => navigate("/sign-up"), 2000);
     } catch (err) {
-      setError(err.message);
+      toast.error(err.message, {
+        position: "bottom-right",
+        autoClose: 3000,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -120,9 +156,6 @@ const Register = () => {
 
         <label htmlFor="address">Address:</label>
         <textarea id="address" ref={address} placeholder="Enter your address" />
-
-        {error && <div className="error-message">{error}</div>}
-        {success && <div className="success-message">{success}</div>}
 
         <button className="register__button" type="submit" disabled={isLoading}>
           {isLoading ? "Registering..." : "REGISTER"}

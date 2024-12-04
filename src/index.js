@@ -7,13 +7,20 @@ import { BrowserRouter } from "react-router-dom";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 
-import productsReducer, {productsFetch} from "./components/ShoppingCartMenu/Features/productsSlice";
-import { ProductsAPI} from "./components/ShoppingCartMenu/Features/ProductsAPI";
-import cartReducer, { getTotals } from './components/ShoppingCartMenu/Features/cartSlice';
-import voucherReducer from './components/ShoppingCartMenu/Features/VoucherSlice';
+import productsReducer, {
+  productsFetch,
+} from "./components/ShoppingCartMenu/Features/productsSlice";
+import { ProductsAPI } from "./components/ShoppingCartMenu/Features/ProductsAPI";
+import cartReducer, {
+  getTotals,
+} from "./components/ShoppingCartMenu/Features/cartSlice";
+import voucherReducer from "./components/ShoppingCartMenu/Features/VoucherSlice";
+import authReducer from "./components/Account/authSllice";
+
 // dùng redux lấy nối data
 const store = configureStore({
   reducer: {
+    auth: authReducer,
     products: productsReducer,
     cart: cartReducer,
     vouchers: voucherReducer,
@@ -21,7 +28,6 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(ProductsAPI.middleware),
-
 });
 store.dispatch(productsFetch);
 store.dispatch(getTotals());

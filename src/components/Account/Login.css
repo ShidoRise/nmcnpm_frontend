@@ -85,3 +85,10 @@ input {
 .login__account:hover {
     color:#ff0051;
 }
+
+.error-message {
+  color: #ff0051;
+  text-align: center;
+  margin: 10px 0;
+  font-size: 14px;
+}
