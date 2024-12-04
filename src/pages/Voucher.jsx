@@ -10,10 +10,6 @@ function Voucher() {
         }, [dispatch]);
     return (
         <div className="App">
-            <header>
-            <br/>
-            <h2>Danh sách Voucher</h2>
-            </header>
             <VoucherList vouchers={vouchers}/>
         </div>
     );

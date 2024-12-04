@@ -23,7 +23,7 @@ const cartSlice = createSlice ({
                     ...state.cartItems[existingIndex],
                     cartQuantity: state.cartItems[existingIndex].cartQuantity + 1,
                 }
-                toast.info(`increased ${state.cartItems[existingIndex].title} cart quantity`, {
+                toast.info(`Increased ${state.cartItems[existingIndex].title} cart quantity`, {
                     position: "bottom-left",
                 });
             } else {
@@ -105,7 +105,7 @@ const cartSlice = createSlice ({
                 total: 0,
                 quantity: 0,
             });
-            total = parseFloat(total.toFixed(2));
+            total = parseFloat(total.toFixed(3));
             state.cartTotalQuantity = quantity;
             state.cartTotalAmount = total;
         }

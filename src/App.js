@@ -15,6 +15,7 @@ import Dashboard from "./pages/Dashboard";
 import ProductDetail from "./components/ProductsMenu/Details/ProductDetail";
 import PayMoney from "./components/ShoppingCartMenu/CheckoutCart/PayMoney";
 import Confirm from "./components/ShoppingCartMenu/CheckoutCart/Confirm";
+import Profile from "./components/Account/Profile";
 
 function App() {
   // kiểm tra đăng nhập
@@ -64,6 +65,7 @@ function App() {
         <Route path="/Swipercarousel" element={<Swipercarousel />} />
         <Route path="/paymoney" element={<PayMoney />} />
         <Route path="/confirm" element={<Confirm />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </>
   );

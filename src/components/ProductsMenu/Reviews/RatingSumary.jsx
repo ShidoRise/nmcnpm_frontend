@@ -3,7 +3,7 @@ import { FaStar, FaRegStar } from 'react-icons/fa';
 import "./RatingSumary.css";
 const RatingSummary = ({ reviews }) => {
     if (!reviews || reviews.length === 0) {
-        return <p>No reviews available</p>;
+        return;
     }
 
     const calculateRatingDistribution = () => {
@@ -28,13 +28,12 @@ const RatingSummary = ({ reviews }) => {
             <h4>Rating Summary</h4>
             {ratingPercentage.map((percentage, index) => (
                 <div key={index} className="rating-bar">
-                    <span>{index} <FaStar />:</span>
+                    <span>{index + 1} <FaStar />:</span>
                     <div className="bar">
                         <div
                             className="bar-fill"
                             style={{
                                 width: `${percentage}%`,
-                                backgroundColor: "gold",
                                 height: "10px",
                             }}
                         ></div>

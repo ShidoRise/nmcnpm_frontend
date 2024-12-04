@@ -61,9 +61,9 @@ function Footer() {
 
           <div class='footer-link-items'>
             <h2>Recruitment</h2>
-            <Link to='https://www.facebook.com/PizzWang' target="_blank">Instagram</Link>
+            <Link to='https://www.instagram.com/ct.thong18/' target="_blank">Instagram</Link>
             <Link to='https://www.facebook.com/PizzWang' target="_blank">Facebook</Link>
-            <Link to='https://www.facebook.com/PizzWang' target="_blank">Youtube</Link>
+            <Link to='https://www.youtube.com/@Ctthong18' target="_blank">Youtube</Link>
           </div>
 
         </div>
@@ -87,7 +87,7 @@ function Footer() {
             </Link>
             <Link
               class='social-icon-link instagram'
-              to='https://www.facebook.com/PizzWang'
+              to='https://www.instagram.com/ct.thong18/'
               target='_blank'
               aria-label='Instagram'
             >
@@ -95,7 +95,7 @@ function Footer() {
             </Link>
             <Link
               class='social-icon-link youtube'
-              to='https://www.facebook.com/PizzWang'
+              to='https://www.youtube.com/@Ctthong18'
               target='_blank'
               aria-label='Youtube'
             >
