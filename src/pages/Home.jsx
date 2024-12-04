@@ -1,16 +1,20 @@
-import React from 'react';
-import SlideSection from '../components/UI/SlideSection';
-import Footer from '../components/UI/Footer';
-import Cards from '../components/UI/Cards';
+import React, { Suspense } from "react";
+import SlideSection from "../components/UI/SlideSection";
+const Cards = React.lazy(() => import("../components/UI/Cards"));
+const Footer = React.lazy(() => import("../components/UI/Footer"));
 
-function Home () {
-    return (
-        <>
-            <SlideSection />
-            <Cards/>
-            <Footer />
-        </>
-    )
-}
+const Home = () => {
+  return (
+    <>
+      <SlideSection />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Cards />
+      </Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Footer />
+      </Suspense>
+    </>
+  );
+};
 
-export default Home;
+export default React.memo(Home);

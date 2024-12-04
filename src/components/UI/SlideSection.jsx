@@ -1,36 +1,82 @@
-import React from 'react';
-import { Button } from './Button/Button';
-import './SlideSection.css';
-import '../../App.css';
+import React, { useState, useCallback } from "react";
 import { GiFullPizza } from "react-icons/gi";
-import logountext from '../../assets/images/logountext.PNG';
-import Swipercarousel from './Swiperedit/Swipercarousel';
+import PropTypes from "prop-types";
+import "./SlideSection.css";
+import "../../App.css";
+import logountext from "../../assets/images/logountext.PNG";
+import Swipercarousel from "./Swiperedit/Swipercarousel";
+import { Button } from "./Button/Button.jsx";
 
-// quảng bá đầu trang khi chưa đăng nhập
-function SlideSection () {
-    return (
-        <div className='hero-container'>
-            <div className="hero-welcome">
-                <h1 className="hero-welcome-title">Welcome to PizzWang <GiFullPizza/></h1>
+const SlideSection = ({ onGetStarted }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [error, setError] = useState(null);
 
-            </div>
-            <Swipercarousel/>
+  const handleImageLoad = useCallback(() => {
+    setImageLoaded(true);
+  }, []);
 
-            <div className="hero-background">
-                <img src={logountext} alt="background-inner"/>
-            </div>
-            <p class="hero-hello">What do you want to eat today?</p>
-            <div className='hero-btns'>
-                <Button className='btns' buttonStyle='btn--food' buttonSize='btn--large'>
-                    GET STARTED <i class="fa-solid fa-right-to-bracket"></i>
-                </Button>
+  const handleImageError = useCallback((e) => {
+    setError("Failed to load image");
+    console.error("Image loading error:", e);
+  }, []);
 
-                <Button className='btns' buttonStyle='btn--food' buttonSize='btn--large' to='/products'>
-                    TODAY's DELICIOUS FOOD <i class="fa-solid fa-pizza-slice"></i>
-                </Button>
-            </div>
-        </div>
-    );
-}
+  const handleGetStarted = useCallback(() => {
+    if (onGetStarted) {
+      onGetStarted();
+    }
+  }, [onGetStarted]);
 
-export default SlideSection;
+  if (error) {
+    return <div className="error-container">{error}</div>;
+  }
+
+  return (
+    <section className="hero-container">
+      <div className="hero-welcome">
+        <h1 className="hero-welcome-title">
+          Welcome to PizzWang <GiFullPizza className="pizza-icon" />
+        </h1>
+      </div>
+
+      <Swipercarousel />
+
+      <div className="hero-background">
+        <img
+          src={logountext}
+          alt="PizzWang Logo"
+          className={`background-image ${imageLoaded ? "loaded" : ""}`}
+          onLoad={handleImageLoad}
+          onError={handleImageError}
+        />
+      </div>
+
+      <h2 className="hero-hello">What do you want to eat today?</h2>
+
+      <div className="hero-btns">
+        <Button
+          className="btns"
+          buttonStyle="btn--food"
+          buttonSize="btn--large"
+          onClick={handleGetStarted}
+        >
+          GET STARTED <i className="fa-solid fa-right-to-bracket" />
+        </Button>
+
+        <Button
+          className="btns"
+          buttonStyle="btn--food"
+          buttonSize="btn--large"
+          to="/products"
+        >
+          VIEW MENU <i className="fa-solid fa-pizza-slice" />
+        </Button>
+      </div>
+    </section>
+  );
+};
+
+SlideSection.propTypes = {
+  onGetStarted: PropTypes.func,
+};
+
+export default React.memo(SlideSection);
