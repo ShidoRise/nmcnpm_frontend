@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getUserCart } from "../API/cartAPI";
-import { loginUser } from "../API/accountApi";
+import { loginUser, getUserProfile } from "../API/accountApi";
 
 const Login = () => {
   const username = useRef();
@@ -27,8 +27,9 @@ const Login = () => {
         username: username.current.value,
         password: password.current.value,
       });
+      const profileData = await getUserProfile();
 
-      dispatch(loginSuccess(userData));
+      dispatch(loginSuccess({ ...userData, ...profileData }));
 
       try {
         await getUserCart(userData.userId);

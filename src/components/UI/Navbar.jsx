@@ -103,12 +103,19 @@ const Navbar = () => {
             </li>
 
             {isLoggedIn ? (
-              <li className="nav-item dropdown">
+              <li
+                className="nav-item dropdown"
+                onMouseEnter={() => setDropdown(true)}
+                onMouseLeave={() => setDropdown(false)}
+              >
                 <div
                   className="nav-links dropdown-toggle"
                   onClick={toggleDropdown}
                 >
-                  Account
+                  Hello,
+                  <span className="username-truncate">
+                    {user?.name || "User"}
+                  </span>
                 </div>
                 <div className={`dropdown-menu ${dropdown ? "show" : ""}`}>
                   <Link
