@@ -4,15 +4,16 @@
   justify-content: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   align-items: center;
+
 }
 
 .voucher-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 20px;
   padding: 30px;
   margin: 10px;
   justify-content: center;
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .voucher-card:hover {

@@ -12,7 +12,7 @@ import ReviewList from "../Reviews/ReviewList";
 import RatingSummary from "../Reviews/RatingSumary";
 
 const ProductDetail = () => {
-    const { id } = useParams();
+    const { id, title } = useParams();
     const { data: products, error, isLoading } = useGetAllProductsQuery();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ const ProductDetail = () => {
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
 
-    const product = products.find((product) => product.id === id);
+    const product = products.find((product) => product.title === title);
 
     if (!product) return <div>Product not found</div>;
 

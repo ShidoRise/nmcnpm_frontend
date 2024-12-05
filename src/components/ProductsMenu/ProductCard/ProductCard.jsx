@@ -22,7 +22,7 @@ const ProductCard = ({ product, onAddToCart }) => {
                 <div className="product-card-details">
                     <ul>
                       <li>
-                          <Link to={`/product/${product.id}`} className="details-card">Details</Link>
+                          <Link to={`/product/${product.title}`} className="details-card">Details</Link>
                      </li>
 
                        <li>
