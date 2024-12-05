@@ -2,12 +2,14 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginSuccess, loginFail } from "./authSllice";
+import { loginSuccess, loginFail } from "./authSlice";
 import axios from "axios";
 import "./Login.css";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getUserCart } from "../API/cartAPI";
+import { loginUser } from "../API/accountApi";
 
 const Login = () => {
   const username = useRef();
@@ -21,25 +23,25 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/auth/login",
-        {
-          username: username.current.value,
-          password: password.current.value,
-        },
-        { withCredentials: true }
-      );
+      const userData = await loginUser({
+        username: username.current.value,
+        password: password.current.value,
+      });
 
-      if (res.status === 200) {
-        dispatch(loginSuccess(res.data));
+      dispatch(loginSuccess(userData));
 
-        toast.success("Login successful!", {
-          position: "bottom-right",
-          autoClose: 2000,
-        });
-
-        navigate("/");
+      try {
+        await getUserCart(userData.userId);
+      } catch (cartError) {
+        console.error("Failed to fetch cart:", cartError);
       }
+
+      toast.success("Login successful!", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+
+      navigate("/");
     } catch (error) {
       dispatch(loginFail(error.message));
 

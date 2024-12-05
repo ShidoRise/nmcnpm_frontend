@@ -13,6 +13,7 @@ import Register from "./components/Account/Register";
 import ProductDetail from "./components/ProductsMenu/Details/ProductDetail";
 import PayMoney from "./components/ShoppingCartMenu/CheckoutCart/PayMoney";
 import Confirm from "./components/ShoppingCartMenu/CheckoutCart/Confirm";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/product/:title" element={<ProductDetail />} />
         <Route path="/payment" element={<PayMoney />} />
         <Route path="/confirm" element={<Confirm />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </>
   );

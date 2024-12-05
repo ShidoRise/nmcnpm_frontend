@@ -15,7 +15,7 @@ import cartReducer, {
   getTotals,
 } from "./components/ShoppingCartMenu/Features/cartSlice";
 import voucherReducer from "./components/ShoppingCartMenu/Features/VoucherSlice";
-import authReducer from "./components/Account/authSllice";
+import authReducer from "./components/Account/authSlice";
 
 // dùng redux lấy nối data
 const store = configureStore({

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../Account/authSllice";
+import { logout } from "../Account/authSlice";
 import { Button } from "./Button/Button";
 import "./Navbar.css";
 import logowithtext from "../../assets/images/logowithtext.PNG";
