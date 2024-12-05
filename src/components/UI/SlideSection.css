@@ -47,9 +47,15 @@
 
 .hero-btns {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   margin-top: 2rem;
-  z-index: 2;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-btns > div {
+  display: flex;
+  gap: 2rem;
 }
 
 @keyframes spin {

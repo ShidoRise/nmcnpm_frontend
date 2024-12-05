@@ -5,11 +5,16 @@ import "./SlideSection.css";
 import "../../App.css";
 import logountext from "../../assets/images/logountext.PNG";
 import Swipercarousel from "./Swiperedit/Swipercarousel";
+import { FaCcAmazonPay } from "react-icons/fa";
+import { IoFastFoodSharp } from "react-icons/io5";
 import { Button } from "./Button/Button.jsx";
+import { useSelector } from "react-redux";
 
 const SlideSection = ({ onGetStarted }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [error, setError] = useState(null);
+
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const handleImageLoad = useCallback(() => {
     setImageLoaded(true);
@@ -53,23 +58,47 @@ const SlideSection = ({ onGetStarted }) => {
       <h2 className="hero-hello">What do you want to eat today?</h2>
 
       <div className="hero-btns">
-        <Button
-          className="btns"
-          buttonStyle="btn--food"
-          buttonSize="btn--large"
-          onClick={handleGetStarted}
-        >
-          GET STARTED <i className="fa-solid fa-right-to-bracket" />
-        </Button>
+        {isLoggedIn ? (
+          <div>
+            <Button
+              className="btns"
+              buttonStyle="btn--food"
+              buttonSize="btn--large"
+              to="products"
+            >
+              BUY FOOD NOW <IoFastFoodSharp />
+            </Button>
 
-        <Button
-          className="btns"
-          buttonStyle="btn--food"
-          buttonSize="btn--large"
-          to="/products"
-        >
-          VIEW MENU <i className="fa-solid fa-pizza-slice" />
-        </Button>
+            <Button
+              className="btns"
+              buttonStyle="btn--food"
+              buttonSize="btn--large"
+              to="/shoppingcart"
+            >
+              PAY NOW <FaCcAmazonPay />
+            </Button>
+          </div>
+        ) : (
+          <div>
+            <Button
+              className="btns"
+              buttonStyle="btn--food"
+              buttonSize="btn--large"
+              onClick={handleGetStarted}
+            >
+              GET STARTED <i className="fa-solid fa-right-to-bracket" />
+            </Button>
+
+            <Button
+              className="btns"
+              buttonStyle="btn--food"
+              buttonSize="btn--large"
+              to="/products"
+            >
+              VIEW MENU <i className="fa-solid fa-pizza-slice" />
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );

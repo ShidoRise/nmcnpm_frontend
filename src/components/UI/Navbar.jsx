@@ -63,7 +63,7 @@ const Navbar = () => {
           <ul className={click ? "nav-menu active" : "nav-menu"}>
             <li className="nav-item">
               <NavLink
-                to={isLoggedIn ? "/dashboard" : "/"}
+                to={"/"}
                 className="nav-links"
                 activeClassName="active"
                 onClick={closeMobileMenu}

@@ -1,13 +1,12 @@
-import React from 'react';
-import ProductMenu from '../components/ProductsMenu/ProductMenu';
-import ShoppingCartMenu from '../components/ShoppingCartMenu/ShoppingCartMenu';
+import React from "react";
+import ProductMenu from "../components/ProductsMenu/ProductMenu";
 
-function Products () {
-    return (
-        <>
-           <ProductMenu />
-        </>
-    )
+function Products() {
+  return (
+    <>
+      <ProductMenu />
+    </>
+  );
 }
 
 export default Products;

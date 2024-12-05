@@ -10,7 +10,6 @@ import Products from "./pages/Products";
 import Voucher from "./pages/Voucher";
 import SignUp from "./pages/SignUp";
 import Register from "./components/Account/Register";
-import Dashboard from "./pages/Dashboard";
 import ProductDetail from "./components/ProductsMenu/Details/ProductDetail";
 import PayMoney from "./components/ShoppingCartMenu/CheckoutCart/PayMoney";
 import Confirm from "./components/ShoppingCartMenu/CheckoutCart/Confirm";
@@ -22,7 +21,6 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/products" element={<Products />} />
         <Route path="/shoppingcart" element={<ShoppingCart />} />
         <Route path="/voucher" element={<Voucher />} />
