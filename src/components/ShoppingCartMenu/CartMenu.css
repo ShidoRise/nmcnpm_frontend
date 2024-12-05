@@ -171,3 +171,36 @@
     cursor: pointer;
     margin-bottom: 10px;
 }
+
+.cartmenu-login-prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    text-align: center;
+}
+
+.cartmenu-login-prompt h2 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.cartmenu-login-prompt p {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.login-button {
+    background-color: #762E2E;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #FFD700;
+    color: #000000;
+}
