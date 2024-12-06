@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getUserProfile } from "../API/accountApi";
 import { updateUserData } from "./authSlice";
 import "./Profile.css";
 import { updateUserProfile } from "../API/accountApi";
-import { setUser } from "./userSlice";
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,15 +27,6 @@ const Profile = () => {
       try {
         const profileData = await getUserProfile();
         setFormData(profileData);
-
-//Thông thêm để thử lấy thông tin
-        dispatch(setUser({
-          username: profileData.username,
-          name: profileData.name,
-          number: profileData.phoneNumber,
-          address: profileData.address,
-        }));
-//
       } catch (err) {
         setError(err.message);
         toast.error("Failed to load profile", {
@@ -49,6 +40,15 @@ const Profile = () => {
 
     fetchProfile();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      setFormData((prevData) => ({
+        ...prevData,
+        ...user,
+      }));
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

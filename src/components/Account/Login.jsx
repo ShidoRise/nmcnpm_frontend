@@ -3,7 +3,6 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess, loginFail } from "./authSlice";
-import axios from "axios";
 import "./Login.css";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
