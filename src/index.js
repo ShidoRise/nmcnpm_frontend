@@ -16,11 +16,13 @@ import cartReducer, {
 } from "./components/ShoppingCartMenu/Features/cartSlice";
 import voucherReducer from "./components/ShoppingCartMenu/Features/VoucherSlice";
 import authReducer from "./components/Account/authSlice";
+import userReducer from "./components/Account/userSlice";
 
 // dùng redux lấy nối data
 const store = configureStore({
   reducer: {
     auth: authReducer,
+    user: userReducer,
     products: productsReducer,
     cart: cartReducer,
     vouchers: voucherReducer,

@@ -404,3 +404,6 @@
 .modal-qrcode button:hover {
   background-color: #3651a2;
 }
+.qrcode img{
+    width: 100%;
+}

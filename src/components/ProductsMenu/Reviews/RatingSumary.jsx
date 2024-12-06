@@ -1,6 +1,7 @@
 import React from "react";
 import { FaStar, FaRegStar } from 'react-icons/fa';
-import "./RatingSumary.css";
+import './RatingSumary.css';
+
 const RatingSummary = ({ reviews }) => {
     if (!reviews || reviews.length === 0) {
         return;
@@ -14,7 +15,7 @@ const RatingSummary = ({ reviews }) => {
             ratingCount[review.rating - 1]++;
         });
 
-        // Tính phần trăm dựa trên số lượt đánh giá cho từng mức sao
+
         const ratingPercentage = ratingCount.map((count) => ((count / totalReviews) * 100).toFixed(1));
 
         return { ratingCount, ratingPercentage };
@@ -36,9 +37,9 @@ const RatingSummary = ({ reviews }) => {
                                 width: `${percentage}%`,
                                 height: "10px",
                             }}
+                            data-rating={index + 1}
                         ></div>
                     </div>
-                    {/* Hiển thị phần trăm và số lượt đánh giá */}
                     <span>{percentage}% ({ratingCount[index]} votes)</span>
                 </div>
             ))}

@@ -28,7 +28,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/register" element={<Register />} />
         <Route path="/product/:title" element={<ProductDetail />} />
-        <Route path="/payment" element={<PayMoney />} />
+        <Route path="/paymoney" element={<PayMoney />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>

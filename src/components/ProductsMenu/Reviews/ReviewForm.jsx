@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+import { useSelector } from 'react-redux';
 import './ReviewForm.css';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 
 const ReviewForm = ({ onAddReview }) => {
+    const user = useSelector((state) => state.user.user); // Lấy thông tin user từ Redux
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
+
+    const [name, setName] = useState(user?.name || "");
+    const [username, setUsername] = useState(user?.username || "");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -14,7 +19,10 @@ const ReviewForm = ({ onAddReview }) => {
         }
 
         const newReview = {
-            user: "CurrentUser",
+            user: {
+                name: user?.name ? `${user.name}` : 'Anonymous', // Sử dụng tên từ Redux
+                username: user?.username ? `${user.username}` : '', // Sử dụng username từ Redux
+            },
             rating,
             comment,
             date: new Date().toLocaleString(),

@@ -9,7 +9,6 @@
     border-radius: 8px;
 }
 
-
 .rating-summary-box h4 {
     font-size: 24px;
     color: #333;
@@ -25,6 +24,7 @@
     font-size: 16px;
     color: #333;
 }
+
 .rating-bar .bar {
     flex: 1;
     background-color: #ddd;
@@ -55,4 +55,29 @@
     color: #777;
     font-size: 16px;
     font-style: italic;
+}
+
+/* Adding color to the rating bar based on the rating level */
+.rating-bar .bar-fill {
+    background-color: #ddd; /* Default color */
+}
+
+.rating-bar .bar-fill[data-rating="1"] {
+    background-color: #e74c3c; /* Red for 1-star */
+}
+
+.rating-bar .bar-fill[data-rating="2"] {
+    background-color: #f39c12; /* Orange for 2-stars */
+}
+
+.rating-bar .bar-fill[data-rating="3"] {
+    background-color: #f1c40f; /* Yellow for 3-stars */
+}
+
+.rating-bar .bar-fill[data-rating="4"] {
+    background-color: #2ecc71; /* Green for 4-stars */
+}
+
+.rating-bar .bar-fill[data-rating="5"] {
+    background-color: #3498db; /* Blue for 5-stars */
 }

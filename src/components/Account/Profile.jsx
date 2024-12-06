@@ -5,6 +5,7 @@ import { getUserProfile } from "../API/accountApi";
 import { updateUserData } from "./authSlice";
 import "./Profile.css";
 import { updateUserProfile } from "../API/accountApi";
+import { setUser } from "./userSlice";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,15 @@ const Profile = () => {
       try {
         const profileData = await getUserProfile();
         setFormData(profileData);
+
+//Thông thêm để thử lấy thông tin
+        dispatch(setUser({
+          username: profileData.username,
+          name: profileData.name,
+          number: profileData.phoneNumber,
+          address: profileData.address,
+        }));
+//
       } catch (err) {
         setError(err.message);
         toast.error("Failed to load profile", {

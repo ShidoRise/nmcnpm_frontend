@@ -12,113 +12,110 @@ import SelectVoucher from './SelectVoucher';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVouchers } from '../Features/VoucherSlice';
 import { ButtonMenu } from '../../ProductsMenu/ButtonMenu/ButtonMenu';
+import { updateUser } from "../../Account/userSlice";
 
 const PayMoney = (props) => {
+    const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
-    // set user tạm thời
-    const [user, setUser] = useState({
-        name: "Chu Thanh Thong",
-        number: "06969838666"
-    })
-    //địa chỉ
-    const [address, setAddress] = useState("ĐHBK HN, Phuong Bach Khoa, Quan Hai Ba Trung, Ha Noi");
+    // Lấy thông tin người dùng từ Redux
+    const user = useSelector((state) => state.user.user);
+
+    // Địa chỉ và tên có thể chỉnh sửa
+    const [address, setAddress] = useState(user?.address || "");
+    const [name, setName] = useState(user?.name || "");
+    const [number, setNumber] = useState(user?.number || "");
+
     const [newAddress, setNewAddress] = useState("");
-    //show cửa sổ đổi địa chỉ
     const [showChangeAddress, setShowChangeAddress] = useState(false);
     const [selectedVoucher, setSelectedVoucher] = useState(null);
 
     const openChangeAddress = () => setShowChangeAddress(true);
     const closeChangeAddress = () => setShowChangeAddress(false);
 
-    const handleSetAddress = (event)=>{
+    const handleSaveChanges = () => {
+        dispatch(updateUser({ address, name, number })); // Lưu vào Redux
+    };
+
+    const handleSetAddress = (event) => {
         event.preventDefault();
         setAddress(newAddress);
-    }
-    const handleSetNewAddress = (event)=>{
+    };
+    const handleSetNewAddress = (event) => {
         event.preventDefault();
         setNewAddress(event.target.value);
-    }
+    };
 
-    //voucher
-    const dispatch = useDispatch();
-    const vouchers = useSelector((state) => state.vouchers.items); // Lấy danh sách voucher từ Redux
-    const status = useSelector((state) => state.vouchers.status); // Lấy trạng thái tải dữ liệu
+    // Voucher
+    const vouchers = useSelector((state) => state.vouchers.items);
+    const status = useSelector((state) => state.vouchers.status);
 
-    const [showSelectVoucher,setShowSelectVoucher] = useState(false);
+    const [showSelectVoucher, setShowSelectVoucher] = useState(false);
     const openSelectVoucher = () => setShowSelectVoucher(true);
     const closeSelectVoucher = () => setShowSelectVoucher(false);
     const handleSelectVoucher = (voucher) => {
         setSelectedVoucher(voucher);
-        openSelectVoucher(false);
+        closeSelectVoucher();
     };
 
-
-    //payment
-    const [paymentMethod, setPaymentMethod] = useState("transfer"); // Lưu phương thức thanh toán
+    // Payment
+    const [paymentMethod, setPaymentMethod] = useState("transfer");
     const handlePaymentChange = (e) => {
-        setPaymentMethod(e.target.value); // Cập nhật phương thức thanh toán khi thay đổi
+        setPaymentMethod(e.target.value);
     };
 
-    //cửa sổ thông báo đặt hàng thành công
-    const [showModalOrderSuccess, setShowModalOrderSuccess] = useState(false); // Trạng thái modal
-
+    // Order
+    const [showModalOrderSuccess, setShowModalOrderSuccess] = useState(false);
     const handlePlaceOrderSuccess = () => {
-        setShowModalOrderSuccess(true); // Hiển thị modal khi nhấn nút Đặt hàng
+        setShowModalOrderSuccess(true);
     };
-
     const handleCloseOrderSuccess = () => {
-        setShowModalOrderSuccess(false); // Đóng modal khi nhấn nút Đóng
+        setShowModalOrderSuccess(false);
     };
 
-
-    //cửa sổ hiện qrcode
-    const [showQRCode, setShowQRCode] = useState(false); // Trạng thái modal
-
+    // QR
+    const [showQRCode, setShowQRCode] = useState(false);
     const handleShowQRCode = () => {
-        setShowQRCode(true); // Hiển thị modal khi nhấn nút Đặt hàng
+        setShowQRCode(true);
     };
-
     const handleCloseQRCode = () => {
-        setShowQRCode(false); // Đóng modal khi nhấn nút Đóng
+        setShowQRCode(false);
     };
 
     const handleClickTransferred = () => {
         handleCloseQRCode();
         handlePlaceOrderSuccess();
-    }
-    //click order:
-    //nếu phương thức thanh toán là cod thì hiển thị đặt hàng thành công
-    //nếu phương thức thanh toán là transfer thì hiển thị qr code
+    };
+
     const handleClickOrder = () => {
         paymentMethod === "cod" ? handlePlaceOrderSuccess() : handleShowQRCode();
-    }
+    };
 
     useEffect(() => {
         if (status === "idle") {
-          dispatch(fetchVouchers());
+            dispatch(fetchVouchers());
         }
-      }, [dispatch, status]);
-    return(
-        <div className='main'>
+    }, [dispatch, status]);
+
+    return (
+        <div className="main">
             <div className="address-container">
-                <div className='address-header'>
+                <div className="address-header">
                     <HiLocationMarker />
                     Address
                 </div>
-                <div className='address'>
-                    <div className='user-name'>
-                       {user.name + " (" + user.number +")"}
-                    </div>
-                    <div className='user-address'>
-                        {address}
-                    </div>
-                    
-                    <div className='change-address' onClick={()=>{openChangeAddress()}}>Change Address</div>
+                <div className="address">
+                <div className="user-name">
+    {user?.name && user?.number ? `${user.name} (${user.number})` : 'No user info'}
+</div>
+<div className="user-address">
+    {address || 'No address available'}
+</div>
+                    <div className="change-address" onClick={openChangeAddress}>Change Address</div>
                     {showChangeAddress && (
                         <ChangeAddress
-                        handleSetNewAddress={handleSetNewAddress}
-                        closeChangeAddress={closeChangeAddress}
-                        handleSetAddress={handleSetAddress}
+                            handleSetNewAddress={handleSetNewAddress}
+                            closeChangeAddress={closeChangeAddress}
+                            handleSetAddress={handleSetAddress}
                         />
                     )}
                 </div>
@@ -140,8 +137,8 @@ const PayMoney = (props) => {
                 )}
                 {showSelectVoucher&&(
                     <SelectVoucher
-                    vouchers={vouchers} 
-                    onSelect={handleSelectVoucher} 
+                    vouchers={vouchers}
+                    onSelect={handleSelectVoucher}
                     onClose={closeSelectVoucher}
                     />
                 )}
@@ -152,7 +149,7 @@ const PayMoney = (props) => {
                     <MdPayment />
                     Select Payment Method
                 </div>
-                
+
                 <select value={paymentMethod} onChange={handlePaymentChange}>
                     <option value="transfer">Transfer</option>
                     <option value="cod">Cash On Delivery</option>
@@ -164,8 +161,10 @@ const PayMoney = (props) => {
                 <div className="modal-overlay-qrcode">
                     <div className="modal-qrcode">
                         <div className="modal-qrcode-header">Transfer QR</div>
-                        <div className="qrcode">QR Code Here</div>
-                        
+                        <div className="qrcode">
+                            <img src="https://res.cloudinary.com/dxxiercxx/image/upload/v1733408095/462571951_1088195269413055_2729153872552906077_n_hbbldp.jpg" alt="QR-Code" />
+                        </div>
+
                         <button onClick={()=>handleClickTransferred()}>Transferred</button>
                     </div>
                 </div>
@@ -196,7 +195,7 @@ const PayMoney = (props) => {
             </div>
 
         </div>
-        
+
     );
 }
 export default PayMoney;
