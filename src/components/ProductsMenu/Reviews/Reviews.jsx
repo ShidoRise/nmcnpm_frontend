@@ -14,7 +14,7 @@ const Reviews = ({ productId, reviews, setReviews, isLoading }) => {
         productId={productId}
         onReviewAdded={(newReview) => setReviews([...reviews, newReview])}
       />
-      <ReviewList reviews={reviews} />
+      <ReviewList reviews={reviews} setReviews={setReviews} />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { createReview } from "../../API/reviewAPI";
-import { FaStar, FaRegStar } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "./ReviewForm.css";
 
@@ -20,33 +20,57 @@ const ReviewForm = ({ productId, onReviewAdded }) => {
     e.preventDefault();
 
     if (!user) {
-      toast.error("Please login to submit a review");
+      toast.error("Please login to submit a review", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
       return;
     }
 
     if (rating === 0) {
-      toast.error("Please select a rating");
+      toast.error("Please select a rating", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
       return;
     }
 
     if (!comment.trim()) {
-      toast.error("Please write a review");
+      toast.error("Please write a review", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
       return;
     }
 
     try {
       setIsSubmitting(true);
       const newReview = await createReview({
-        productId,
-        rating,
-        comment: comment.trim(),
+        userId: user.userId,
+        productId: parseInt(productId),
+        rating: rating,
+        review: comment.trim(),
       });
 
-      onReviewAdded(newReview);
+      const reviewWithUser = {
+        ...newReview,
+        User: {
+          userId: user.userId,
+          username: user.username,
+        },
+      };
+
+      onReviewAdded(reviewWithUser);
       resetForm();
-      toast.success("Review submitted successfully!");
+      toast.success("Review submitted successfully!", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
     } catch (err) {
-      toast.error(err.message || "Failed to submit review");
+      toast.error(err.message || "Failed to submit review", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -59,15 +83,15 @@ const ReviewForm = ({ productId, onReviewAdded }) => {
       <div className="rating-container">
         <label>Your Rating:</label>
         <div className="stars">
-          {[1, 2, 3, 4, 5].map((star) => (
+          {[1, 2, 3, 4, 5].map((value) => (
             <button
               type="button"
-              key={star}
-              className={`star-button ${star <= rating ? "active" : ""}`}
-              onClick={() => setRating(star)}
+              key={value}
+              onClick={() => setRating(value)}
+              className={`star-button ${value <= rating ? "active" : ""}`}
               disabled={isSubmitting}
             >
-              {star <= rating ? <FaStar /> : <FaRegStar />}
+              <FaStar />
             </button>
           ))}
         </div>
@@ -78,10 +102,10 @@ const ReviewForm = ({ productId, onReviewAdded }) => {
         <textarea
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          rows="4"
           placeholder="Share your thoughts about this product..."
           disabled={isSubmitting}
           maxLength={500}
+          required
         />
         <small>{comment.length}/500</small>
       </div>
@@ -90,15 +114,15 @@ const ReviewForm = ({ productId, onReviewAdded }) => {
         <button
           type="button"
           onClick={resetForm}
-          disabled={isSubmitting || (!rating && !comment)}
           className="reset-button"
+          disabled={isSubmitting || (!rating && !comment)}
         >
           Reset
         </button>
         <button
           type="submit"
-          disabled={isSubmitting || !rating || !comment.trim()}
           className="submit-button"
+          disabled={isSubmitting || !rating || !comment.trim()}
         >
           {isSubmitting ? "Submitting..." : "Submit Review"}
         </button>

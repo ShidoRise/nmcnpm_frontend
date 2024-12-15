@@ -1,83 +1,55 @@
-/* Container for the rating summary */
-.rating-summary-box {
-    top: 30px;
-    width: 400px;
-    max-width: 600px;
-    margin-right: 20px;
-    padding: 20px;
-    background-color: #f9f9f9;
+.rating-summary {
+    padding: 1rem;
+    background: white;
     border-radius: 8px;
-}
-
-.rating-summary-box h4 {
-    font-size: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .rating-summary h4 {
+    margin-bottom: 1rem;
     color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.rating-bar {
+  }
+  
+  .rating-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .rating-bar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-    font-size: 16px;
-    color: #333;
-}
-
-.rating-bar .bar {
+    gap: 8px;
+  }
+  
+  .rating-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 40px;
+  }
+  
+  .star-icon {
+    color: #ffd700;
+  }
+  
+  .bar-container {
     flex: 1;
-    background-color: #ddd;
-    border-radius: 5px;
-    margin: 0 10px;
-    height: 10px;
-    position: relative;
-}
-
-.rating-bar .bar-fill {
-    border-radius: 5px;
-    transition: width 0.5s ease-in-out;
-}
-
-.rating-bar span:last-child {
-    font-size: 14px;
-    color: #333;
-}
-
-.rating-bar span:first-child {
-    font-weight: bold;
-    font-size: 16px;
-    color: #007bff;
-}
-
-.rating-summary-box p {
-    text-align: center;
-    color: #777;
-    font-size: 16px;
-    font-style: italic;
-}
-
-/* Adding color to the rating bar based on the rating level */
-.rating-bar .bar-fill {
-    background-color: #ddd; /* Default color */
-}
-
-.rating-bar .bar-fill[data-rating="1"] {
-    background-color: #e74c3c; /* Red for 1-star */
-}
-
-.rating-bar .bar-fill[data-rating="2"] {
-    background-color: #f39c12; /* Orange for 2-stars */
-}
-
-.rating-bar .bar-fill[data-rating="3"] {
-    background-color: #f1c40f; /* Yellow for 3-stars */
-}
-
-.rating-bar .bar-fill[data-rating="4"] {
-    background-color: #2ecc71; /* Green for 4-stars */
-}
-
-.rating-bar .bar-fill[data-rating="5"] {
-    background-color: #3498db; /* Blue for 5-stars */
-}
+    height: 12px;
+    background: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  .bar-fill {
+    height: 100%;
+    background: #762E2E;
+    border-radius: 6px;
+    transition: width 0.3s ease;
+  }
+  
+  .count {
+    min-width: 30px;
+    text-align: right;
+    color: #666;
+  }

@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { deleteReview, getReviewsByProductId } from "../../API/reviewAPI";
+import { deleteReview } from "../../API/reviewAPI";
 import { toast } from "react-toastify";
 import "./ReviewList.css";
 
@@ -9,16 +9,19 @@ const ReviewList = ({ reviews, setReviews }) => {
 
   const handleDeleteReview = async (reviewId) => {
     try {
+      await deleteReview(reviewId);
       setReviews((prevReviews) =>
         prevReviews.filter((review) => review.reviewId !== reviewId)
       );
-
-      await deleteReview(reviewId);
-      toast.success("Review deleted successfully");
+      toast.success("Review deleted successfully", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
     } catch (err) {
-      const response = await getReviewsByProductId(reviews[0].productId);
-      setReviews(response.data);
-      toast.error("Failed to delete review");
+      toast.error("Failed to delete review", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
     }
   };
 

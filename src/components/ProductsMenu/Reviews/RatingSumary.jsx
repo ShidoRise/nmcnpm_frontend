@@ -1,50 +1,42 @@
 import React from "react";
-import { FaStar, FaRegStar } from 'react-icons/fa';
-import './RatingSumary.css';
+import { FaStar } from "react-icons/fa";
+import "./RatingSumary.css";
 
 const RatingSummary = ({ reviews }) => {
-    if (!reviews || reviews.length === 0) {
-        return;
+  if (!reviews?.length) return null;
+
+  const ratingCounts = Array(5).fill(0);
+
+  reviews.forEach((review) => {
+    if (review.rating >= 1 && review.rating <= 5) {
+      ratingCounts[review.rating - 1]++;
     }
+  });
 
-    const calculateRatingDistribution = () => {
-        const totalReviews = reviews.length;
-        const ratingCount = Array(5).fill(0);
+  const totalReviews = reviews.length;
 
-        reviews.forEach((review) => {
-            ratingCount[review.rating - 1]++;
-        });
-
-
-        const ratingPercentage = ratingCount.map((count) => ((count / totalReviews) * 100).toFixed(1));
-
-        return { ratingCount, ratingPercentage };
-    };
-
-    const { ratingCount, ratingPercentage } = calculateRatingDistribution();
-    const totalReviews = reviews.length;
-
-    return (
-        <div className="rating-summary-box">
-            <h4>Rating Summary</h4>
-            {ratingPercentage.map((percentage, index) => (
-                <div key={index} className="rating-bar">
-                    <span>{index + 1} <FaStar />:</span>
-                    <div className="bar">
-                        <div
-                            className="bar-fill"
-                            style={{
-                                width: `${percentage}%`,
-                                height: "10px",
-                            }}
-                            data-rating={index + 1}
-                        ></div>
-                    </div>
-                    <span>{percentage}% ({ratingCount[index]} votes)</span>
-                </div>
-            ))}
-        </div>
-    );
+  return (
+    <div className="rating-summary">
+      <h4>Rating Distribution ({totalReviews} reviews)</h4>
+      <div className="rating-bars">
+        {ratingCounts.map((count, index) => (
+          <div key={index} className="rating-bar">
+            <div className="rating-label">
+              <span>{index + 1}</span>
+              <FaStar className="star-icon" />
+            </div>
+            <div className="bar-container">
+              <div
+                className="bar-fill"
+                style={{ width: `${(count / totalReviews) * 100}%` }}
+              />
+            </div>
+            <span className="count">{count}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default RatingSummary;

@@ -12,9 +12,9 @@ export const getAllProducts = async () => {
       image: product.imageUrl,
       description: product.description,
       category: product.category,
+      reviewCount: product.reviews?.[0]?.reviewCount || 0,
     }));
   } catch (err) {
-    console.error("Get products error:", err.response?.data || err);
     throw new Error(err.response?.data?.message || "Failed to fetch products");
   }
 };

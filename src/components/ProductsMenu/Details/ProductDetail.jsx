@@ -43,10 +43,13 @@ const ProductDetail = () => {
         }
 
         setProduct(productData);
-        setReviews(reviewsData || []);
+        setReviews(reviewsData);
       } catch (err) {
         setError(err.message);
-        toast.error(err.message || "Failed to load data");
+        toast.error(err.message || "Failed to load data", {
+          position: "bottom-right",
+          autoClose: 2000,
+        });
         navigate("/products");
       } finally {
         setIsLoading(false);
@@ -63,7 +66,10 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     dispatch(addToCart(product));
-    toast.success("Added to cart!");
+    toast.success("Added to cart!", {
+      position: "bottom-right",
+      autoClose: 2000,
+    });
   };
 
   const handleBuyNow = () => {
