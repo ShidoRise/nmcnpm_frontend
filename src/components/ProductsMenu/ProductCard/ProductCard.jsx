@@ -1,41 +1,34 @@
-// ProductCard.js
 import React from "react";
-import './ProductCard.css';
-import {Link} from 'react-router-dom';
-import { FaRegHandPointRight } from "react-icons/fa";
-import ProductDetail from "../Details/ProductDetail";
+import { Link } from "react-router-dom";
+import "./ProductCard.css";
+
 const ProductCard = ({ product, onAddToCart }) => {
-    return (
-        <div className="to-grid">
-            <div className="listProduct-container">
-            <div className="productcard-container">
-                <div className="product-card-container">
-                    <img src={product.image} alt={product.title} />
-                    <div className="product-card-infor">
-                        <span className="price"><del>{product.oldPrice}</del> ${product.price}</span>
-                       <span className="review">{product.review}</span>
-
-                    </div>
-                    <h3 className="infor-title">{product.title}</h3>
-                </div>
-
-                <div className="product-card-details">
-                    <ul>
-                      <li>
-                          <Link to={`/product/${product.title}`} className="details-card">Details</Link>
-                     </li>
-
-                       <li>
-                         <button onClick={() => onAddToCart(product)}>Add to Cart</button>
-                     </li>
-                    </ul>
-
-                </div>
-            </div>
-
+  return (
+    <div className="product-card">
+      <Link to={`/product/${product.id}`} className="product-link">
+        <div className="product-image">
+          <img src={product.image} alt={product.title} />
         </div>
+        <div className="product-info">
+          <span className="price">${product.price}</span>
+          <h3 className="title">{product.title}</h3>
+          <p className="category">{product.category}</p>
         </div>
-    );
+      </Link>
+
+      <div className="product-actions">
+        <Link to={`/product/${product.id}`} className="details-button">
+          Details
+        </Link>
+        <button
+          className="add-to-cart-button"
+          onClick={() => onAddToCart(product)}
+        >
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default ProductCard;

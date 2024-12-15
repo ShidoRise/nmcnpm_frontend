@@ -1,0 +1,29 @@
+.filter-btn {
+    padding: 8px 16px;
+    margin: 4px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .filter-btn:hover {
+    background: #f0f0f0;
+  }
+  
+  .filter-btn.active {
+    background: #762E2E;
+    color: white;
+    border-color: #762E2E;
+  }
+  
+  .filter-category {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }

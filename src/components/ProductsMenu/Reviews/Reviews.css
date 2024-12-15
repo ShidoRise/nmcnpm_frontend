@@ -1,0 +1,42 @@
+.reviews-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .review-item {
+    border-bottom: 1px solid #eee;
+    padding: 1rem 0;
+  }
+  
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .delete-review {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    font-size: 1.5rem;
+  }
+  
+  .review-rating {
+    color: #ffd700;
+    margin: 0.5rem 0;
+  }
+  
+  .review-comment {
+    margin: 0.5rem 0;
+    color: #666;
+  }
+  
+  .review-date {
+    color: #999;
+  }

@@ -1,72 +1,107 @@
-
-.review-form-box {
-    width: 700px;
-    margin: 0;
+.review-form {
+    background: white;
     padding: 20px;
-    background-color: #f9f9f9;
     border-radius: 8px;
-    top: 0px;
-}
-
-
-.review-form-box h4 {
-    font-size: 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .review-form h4 {
+    margin-bottom: 20px;
     color: #333;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-
-.review-form-box div {
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-
-
-
-.review-form-box textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    resize: vertical;
-    margin-bottom: 15px;
-}
-
-.star-box button {
-    font-size: 24px;
+  }
+  
+  .rating-container {
+    margin-bottom: 20px;
+  }
+  
+  .rating-container label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+  }
+  
+  .stars {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .star-button {
     background: none;
     border: none;
+    color: #ffd700;
     cursor: pointer;
-    transition: color 0.3s ease, transform 0.1s ease-in-out;
-    padding: 5px;
-    margin: 0 2px;
-}
-.star-box label {
-    font-size: 16px;
-    font-weight: 550;
-}
-
-.star-box button:hover {
-    color: blue  !important   ;
+    font-size: 24px;
+    padding: 0;
+    transition: transform 0.2s;
+  }
+  
+  .star-button:hover {
     transform: scale(1.1);
-}
-
-
-.star-box button:active {
-    color: blue     !important;
-    transform: scale(0.95);
-}
-
-.button-submitform {
-    padding: 10px;
-    background: #007bff;
-    border-radius: 8px;
+  }
+  
+  .star-button.active {
+    color: #ffd700;
+  }
+  
+  .comment-container {
+    margin-bottom: 20px;
+  }
+  
+  .comment-container label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+  }
+  
+  .comment-container textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: inherit;
+  }
+  
+  .comment-container small {
+    display: block;
+    text-align: right;
+    color: #777;
+    margin-top: 4px;
+  }
+  
+  .button-container {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+  }
+  
+  .reset-button,
+  .submit-button {
+    padding: 8px 16px;
     border: none;
-    color: #fff;
-}
-.button-submitform:hover {
-    background-color: #0056b3;
-}
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .reset-button {
+    background: #f8f9fa;
+    color: #666;
+  }
+  
+  .submit-button {
+    background: #762E2E;
+    color: white;
+  }
+  
+  .reset-button:hover,
+  .submit-button:hover {
+    transform: translateY(-1px);
+  }
+  
+  .reset-button:disabled,
+  .submit-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }

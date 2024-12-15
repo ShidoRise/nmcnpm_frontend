@@ -1,7 +1,28 @@
+import React from "react";
+import "./FilterCategory.css";
 
-export const FilterCategory = (products, category) => {
-    if (!products || !Array.isArray(products)) return [];
-    if (!category || category === "all") return products; // Trả về toàn bộ sản phẩm nếu không chọn category
+export const FilterCategory = ({ selectedCategory, setSelectedCategory }) => {
+  const categories = [
+    { label: "All", value: "all" },
+    { label: "Pizza", value: "Pizza" },
+    { label: "Burger", value: "Burger" },
+    { label: "Tacos", value: "Tacos" },
+    { label: "Drink", value: "Drink" },
+  ];
 
-    return products.filter(product => product.category === category);
+  return (
+    <div className="filter-category">
+      {categories.map((category) => (
+        <button
+          key={category.value}
+          className={`filter-btn ${
+            selectedCategory === category.value ? "active" : ""
+          }`}
+          onClick={() => setSelectedCategory(category.value)}
+        >
+          {category.label}
+        </button>
+      ))}
+    </div>
+  );
 };

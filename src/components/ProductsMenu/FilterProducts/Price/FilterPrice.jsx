@@ -1,24 +1,28 @@
-export const FilterPrice = (products, selectedPriceRange) => {
-    // Kiểm tra xem sản phẩm có hợp lệ hay không
-    if (!products || !Array.isArray(products)) return [];
-    if (!selectedPriceRange || selectedPriceRange === "all") return products;
+import React from "react";
+import "./FilterPrice.css";
 
-    return products.filter((product) => {
-        // Kiểm tra nếu product.price tồn tại
-        if (!product.price) return false;
+export const FilterPrice = ({ selectedPriceRange, setSelectedPriceRange }) => {
+  const priceRanges = [
+    { label: "All", value: "all" },
+    { label: "Under $10", value: "0-10" },
+    { label: "$10 - $20", value: "10-20" },
+    { label: "$20 - $30", value: "20-30" },
+    { label: "Over $30", value: "30-" },
+  ];
 
-        // Áp dụng điều kiện lọc giá dựa trên khoảng giá
-        switch (selectedPriceRange) {
-            case "<3":
-                return product.price < 3;
-            case "3-10":
-                return product.price >= 3 && product.price < 10;
-            case "10-20":
-                return product.price >= 10 && product.price < 20;
-            case ">=20":
-                return product.price >= 20;
-            default:
-                return true;
-        }
-    });
+  return (
+    <div className="filter-price">
+      {priceRanges.map((range) => (
+        <button
+          key={range.value}
+          className={`filter-btn ${
+            selectedPriceRange === range.value ? "active" : ""
+          }`}
+          onClick={() => setSelectedPriceRange(range.value)}
+        >
+          {range.label}
+        </button>
+      ))}
+    </div>
+  );
 };

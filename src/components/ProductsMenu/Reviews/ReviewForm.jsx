@@ -1,63 +1,110 @@
 import React, { useState } from "react";
-import { useSelector } from 'react-redux';
-import './ReviewForm.css';
-import { FaStar, FaRegStar } from 'react-icons/fa';
+import { useSelector } from "react-redux";
+import { createReview } from "../../API/reviewAPI";
+import { FaStar, FaRegStar } from "react-icons/fa";
+import { toast } from "react-toastify";
+import "./ReviewForm.css";
 
-const ReviewForm = ({ onAddReview }) => {
-    const user = useSelector((state) => state.user.user); // Lấy thông tin user từ Redux
-    const [rating, setRating] = useState(0);
-    const [comment, setComment] = useState("");
+const ReviewForm = ({ productId, onReviewAdded }) => {
+  const user = useSelector((state) => state.auth.user);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const [name, setName] = useState(user?.name || "");
-    const [username, setUsername] = useState(user?.username || "");
+  const resetForm = () => {
+    setRating(0);
+    setComment("");
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (rating === 0 || !comment.trim()) {
-            alert("Vui lòng cung cấp đánh giá và bình luận.");
-            return;
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        const newReview = {
-            user: {
-                name: user?.name ? `${user.name}` : 'Anonymous', // Sử dụng tên từ Redux
-                username: user?.username ? `${user.username}` : '', // Sử dụng username từ Redux
-            },
-            rating,
-            comment,
-            date: new Date().toLocaleString(),
-        };
+    if (!user) {
+      toast.error("Please login to submit a review");
+      return;
+    }
 
-        onAddReview(newReview);
-        setRating(0);
-        setComment("");
-    };
+    if (rating === 0) {
+      toast.error("Please select a rating");
+      return;
+    }
 
-    return (
-        <div className="review-form-box">
-            <h4>Product Reviews</h4>
-            <div className="star-box">
-                <label>Rating Star:</label>
-                {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                        type="button"
-                        key={star}
-                        className={`star-button ${star <= rating ? "active" : ""}`}
-                        onClick={() => setRating(star)}
-                    >
-                        {star <= rating ? <FaStar /> : <FaRegStar />}
-                    </button>
-                ))}
-            </div>
-            <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                rows="4"
-                placeholder="Write your review here..."
-            ></textarea>
-            <button className="button-submitform" onClick={handleSubmit}>Submit</button>
+    if (!comment.trim()) {
+      toast.error("Please write a review");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      const newReview = await createReview({
+        productId,
+        rating,
+        comment: comment.trim(),
+      });
+
+      onReviewAdded(newReview);
+      resetForm();
+      toast.success("Review submitted successfully!");
+    } catch (err) {
+      toast.error(err.message || "Failed to submit review");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form className="review-form" onSubmit={handleSubmit}>
+      <h4>Write a Review</h4>
+
+      <div className="rating-container">
+        <label>Your Rating:</label>
+        <div className="stars">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button
+              type="button"
+              key={star}
+              className={`star-button ${star <= rating ? "active" : ""}`}
+              onClick={() => setRating(star)}
+              disabled={isSubmitting}
+            >
+              {star <= rating ? <FaStar /> : <FaRegStar />}
+            </button>
+          ))}
         </div>
-    );
+      </div>
+
+      <div className="comment-container">
+        <label>Your Review:</label>
+        <textarea
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          rows="4"
+          placeholder="Share your thoughts about this product..."
+          disabled={isSubmitting}
+          maxLength={500}
+        />
+        <small>{comment.length}/500</small>
+      </div>
+
+      <div className="button-container">
+        <button
+          type="button"
+          onClick={resetForm}
+          disabled={isSubmitting || (!rating && !comment)}
+          className="reset-button"
+        >
+          Reset
+        </button>
+        <button
+          type="submit"
+          disabled={isSubmitting || !rating || !comment.trim()}
+          className="submit-button"
+        >
+          {isSubmitting ? "Submitting..." : "Submit Review"}
+        </button>
+      </div>
+    </form>
+  );
 };
 
 export default ReviewForm;

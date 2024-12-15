@@ -27,7 +27,7 @@ function App() {
         <Route path="/voucher" element={<Voucher />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/product/:title" element={<ProductDetail />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/paymoney" element={<PayMoney />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/profile" element={<ProfilePage />} />

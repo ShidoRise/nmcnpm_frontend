@@ -1,77 +1,68 @@
 .review-list-box {
-    width: 100%;
-    max-width: 800px;
-    margin: 20px auto;
     padding: 20px;
-    background-color: #f9f9f9;
+    background: white;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.review-list-box h4 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.review-item {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .review-item {
     padding: 15px;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .review-header {
     display: flex;
+    justify-content: space-between;
     align-items: flex-start;
-}
-
-.review-item-name {
-    font-weight: bold;
-    font-size: 18px;
-    margin-right: 20px;
-    flex: 0 0 20%;
-    white-space: nowrap;
-}
-
-.review-rating {
-    flex: 1;
+  }
+  
+  .user-info {
     display: flex;
     flex-direction: column;
-    color: gold;
-    font-size: 18px;
-}
-
-.rating-resultstar {
-    display: flex;
-    margin-bottom: 10px;
-}
-
-.rating-comment {
-    font-size: 16px;
+    gap: 4px;
+  }
+  
+  .user-info strong {
     color: #333;
-    margin-top: 10px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    max-width: 100%;
-}
-
-.review-item p {
-    font-size: 16px;
-    color: #333;
+    font-size: 1rem;
+  }
+  
+  .review-date {
+    color: #666;
+    font-size: 0.85rem;
+  }
+  
+  .review-rating {
+    margin: 8px 0;
+  }
+  
+  .star {
+    color: #ffd700;
+    font-size: 1.1rem;
+  }
+  
+  .review-comment {
+    margin-top: 8px;
+    color: #444;
     line-height: 1.5;
-    margin: 5px 0;
-}
-
-.review-item p strong {
-    color: #007bff;
-}
-
-.review-item p small {
-    color: #777;
-    font-size: 14px;
-}
-
-.review-list-box p {
+  }
+  
+  .delete-review {
+    background: none;
+    border: none;
+    color: #ff4444;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 4px;
+    border-radius: 4px;
+  }
+  
+  .delete-review:hover {
+    background-color: #ffeeee;
+  }
+  
+  .no-reviews {
     text-align: center;
-    color: #777;
-    font-size: 16px;
-    font-style: italic;
-}
+    color: #666;
+    padding: 20px;
+  }

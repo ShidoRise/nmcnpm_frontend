@@ -1,171 +1,135 @@
 import React, { useState, useEffect, useMemo } from "react";
-import ReactPaginate from "react-paginate";
 import { useDispatch } from "react-redux";
-import { useGetAllProductsQuery } from "../ShoppingCartMenu/Features/ProductsAPI";
 import { addToCart } from "../ShoppingCartMenu/Features/cartSlice";
-import { FilterSearch } from "./FilterProducts/Search/FilterSearch";
+import { getAllProducts } from "../API/productsAPI";
 import { FilterCategory } from "./FilterProducts/Category/FilterCategory";
-import SearchBar from "./FilterProducts/Search/SearchBar";
-import CategoryFilter from "./FilterProducts/Category/CategoryFilter";
+import { FilterPrice } from "./FilterProducts/Price/FilterPrice";
 import ProductCard from "./ProductCard/ProductCard";
 import Cart from "./ProductCart/Cart";
+import ReactPaginate from "react-paginate";
 import "./ProductMenu.css";
-import PropertyBar from "./FilterProducts/Property/PropertyBar";
-import PriceBar from "./FilterProducts/Price/PriceBar";
-import { FilterProperty } from "./FilterProducts/Property/FilterProperty";
-import { FilterPrice } from "./FilterProducts/Price/FilterPrice";
+import { toast } from "react-toastify";
 
 const ProductMenu = () => {
-  const { data, error, isLoading } = useGetAllProductsQuery();
   const dispatch = useDispatch();
-
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedProperty, setSelectedProperty] = useState("all");
-  const [selectedPriceRange, setSelectedPriceRange] = useState("all");
-  const [showSearch, setShowSearch] = useState(true);
-
   const [currentPage, setCurrentPage] = useState(0);
-  const [isLoadingPage, setIsLoadingPage] = useState(false);
-  const productsPerPage = 6;
+  const productsPerPage = 8;
 
-  const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
-  };
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedPriceRange, setSelectedPriceRange] = useState("all");
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setIsLoading(true);
+        const data = await getAllProducts();
+        setProducts(data);
+      } catch (err) {
+        setError(err.message);
+        toast.error("Failed to load products");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   const filteredProducts = useMemo(() => {
-    const filteredBySearch = FilterSearch(data, searchTerm);
-    const filteredByCategory = FilterCategory(
-      filteredBySearch,
-      selectedCategory
-    );
-    const filteredByProperty = filteredByCategory.filter(
-      (product) =>
-        selectedProperty === "all" || product.property === selectedProperty
-    );
-    return FilterPrice(filteredByProperty, selectedPriceRange);
-  }, [
-    data,
-    searchTerm,
-    selectedCategory,
-    selectedProperty,
-    selectedPriceRange,
-  ]);
+    return products.filter((product) => {
+      const matchesSearch = product.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "all" || product.category === selectedCategory;
 
-  const categories = [...new Set(data?.map((product) => product.category))];
-  const properties = [...new Set(data?.map((product) => product.property))];
+      let matchesPrice = true;
+      if (selectedPriceRange !== "all") {
+        const price = parseFloat(product.price);
+        const [min, max] = selectedPriceRange.split("-").map(Number);
+        matchesPrice = price >= min && (max ? price <= max : true);
+      }
 
-  const pageCount = Math.ceil(filteredProducts?.length / productsPerPage);
+      return matchesSearch && matchesCategory && matchesPrice;
+    });
+  }, [products, searchTerm, selectedCategory, selectedPriceRange]);
+
+  const pageCount = Math.ceil(filteredProducts.length / productsPerPage);
   const offset = currentPage * productsPerPage;
-  const currentProducts = filteredProducts?.slice(
+  const currentProducts = filteredProducts.slice(
     offset,
     offset + productsPerPage
   );
 
-  const handlePageChange = ({ selected }) => {
+  const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
-    setIsLoadingPage(true);
-    setTimeout(() => setIsLoadingPage(false), 500);
+    window.scrollTo(0, 0);
   };
 
-  useEffect(() => {
-    let lastScroll = 0;
+  const handleAddToCart = (product) => {
+    dispatch(addToCart({ ...product, quantity: 1 }));
+  };
 
-    const handleScroll = () => {
-      const currentScroll = window.scrollY;
-      setShowSearch(currentScroll <= lastScroll);
-      lastScroll = currentScroll;
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  if (error) return <div className="error-message">{error}</div>;
 
   return (
-    <>
-      <div class="product-aboutcard-container">
-        <div class="product-card-firstfilter">
-          <CategoryFilter
-            categories={categories}
-            selectedCategory={selectedCategory}
-            onCategoryChange={setSelectedCategory}
-          />
-          <PriceBar
-            priceRanges={[
-              { value: "<3", label: "Under $3" },
-              { value: "3-10", label: "$3 - $10" },
-              { value: "10-20", label: "$10 - $20" },
-              { value: ">=20", label: "$20 and above" },
-            ]}
-            selectedPriceRange={selectedPriceRange}
-            onPriceChange={setSelectedPriceRange}
+    <div className="product-menu">
+      <div className="menu-header">
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
+        <Cart />
+      </div>
 
-        <div class="product-card-main">
-          <div class="card-search-filter">
-            {showSearch && (
-              <div className="search-bar">
-                <SearchBar
-                  searchTerm={searchTerm}
-                  onSearchChange={setSearchTerm}
+      <div className="filter-section">
+        <FilterCategory
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
+        <FilterPrice
+          selectedPriceRange={selectedPriceRange}
+          setSelectedPriceRange={setSelectedPriceRange}
+        />
+      </div>
+
+      <div className="products-container">
+        {isLoading ? (
+          <div className="loading">Loading...</div>
+        ) : (
+          <>
+            <div className="products-grid">
+              {currentProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onAddToCart={() => handleAddToCart(product)}
                 />
-              </div>
-            )}
-          </div>
-
-          <div className="property-filter-container">
-            <PropertyBar
-              properties={properties}
-              selectedProperty={selectedProperty}
-              onPropertyChange={setSelectedProperty}
-            />
-          </div>
-
-          <div className="product-card-collect">
-            <p>{filteredProducts?.length} products found</p>
-
-            {isLoading || isLoadingPage ? (
-              <p>Loading...</p>
-            ) : error ? (
-              <div>
-                <p>An error occurred. Please try again.</p>
-                <button onClick={() => window.location.reload()}>Reload</button>
-              </div>
-            ) : (
-              <div className="productcard-mini">
-                {currentProducts?.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    onAddToCart={handleAddToCart}
-                  />
-                ))}
-              </div>
-            )}
+              ))}
+            </div>
 
             <ReactPaginate
-              previousLabel={"Previous"}
-              nextLabel={"Next"}
+              previousLabel={"←"}
+              nextLabel={"→"}
               pageCount={pageCount}
-              onPageChange={handlePageChange}
+              onPageChange={handlePageClick}
               containerClassName={"pagination"}
               previousLinkClassName={"pagination__link"}
               nextLinkClassName={"pagination__link"}
               disabledClassName={"pagination__link--disabled"}
               activeClassName={"pagination__link--active"}
             />
-          </div>
-        </div>
-
-        <div class="card-notify">
-          <Cart />
-        </div>
+          </>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 
