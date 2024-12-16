@@ -6,6 +6,7 @@ import { getProductById } from "../../API/productsAPI";
 import { getReviewsByProductId } from "../../API/reviewAPI";
 import { BsArrowLeftCircle } from "react-icons/bs";
 import Reviews from "../Reviews/Reviews";
+import Cart from "../ProductCart/Cart";
 import { toast } from "react-toastify";
 import "./ProductDetail.css";
 
@@ -79,6 +80,7 @@ const ProductDetail = () => {
 
   return (
     <div className="card-detail-container container">
+      <Cart />
       <div className="card-detail-infor">
         <div className="card-detail-image col-5">
           <div className="card-detailback">
