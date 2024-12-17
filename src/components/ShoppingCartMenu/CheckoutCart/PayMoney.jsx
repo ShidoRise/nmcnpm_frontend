@@ -1,255 +1,359 @@
 import React, { useState, useEffect } from "react";
-import "./PayMoney.css";
-import { HiLocationMarker } from "react-icons/hi";
-import { BiSolidDiscount } from "react-icons/bi";
-import { IoClose } from "react-icons/io5";
-import { FaArrowAltCircleLeft } from "react-icons/fa";
-import { MdPayment } from "react-icons/md";
-import "reactjs-popup/dist/index.css";
-import ChangeAddress from "./ChangeAddress";
-import SelectVoucher from "./SelectVoucher";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchVouchers } from "../Features/VoucherSlice";
-import { ButtonMenu } from "../../ProductsMenu/ButtonMenu/ButtonMenu";
+import { useNavigate } from "react-router-dom";
+import {
+  FaArrowLeft,
+  FaHome,
+  FaTag,
+  FaCreditCard,
+  FaTruck,
+  FaMoneyBillWave,
+  FaUniversity,
+} from "react-icons/fa";
+import { updateUserProfile } from "../../API/accountApi";
 import { updateUserData } from "../../Account/authSlice";
-import { getUserProfile, updateUserProfile } from "../../API/accountApi";
+import { clearCart } from "../Features/cartSlice";
+import { fetchVouchers } from "../Features/VoucherSlice";
 import { toast } from "react-toastify";
+import SelectVoucher from "./SelectVoucher";
+import { getUserProfile } from "../../API/accountApi";
+import "./PayMoney.css";
 
 const PayMoney = () => {
+  const { user } = useSelector((state) => state.auth);
+  const { cartTotalAmount } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
-  const user = useSelector((state) => state.auth.user);
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
   const [newAddress, setNewAddress] = useState("");
-  const [showChangeAddress, setShowChangeAddress] = useState(false);
-  const [selectedVoucher, setSelectedVoucher] = useState(null);
+  const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("cod");
+  const [deliveryMethod, setDeliveryMethod] = useState("standard");
+  const [voucher, setVoucher] = useState("");
+  const [discount, setDiscount] = useState(0);
 
-  const openChangeAddress = () => setShowChangeAddress(true);
-  const closeChangeAddress = () => setShowChangeAddress(false);
+  const [showVoucherModal, setShowVoucherModal] = useState(false);
+  const { items: availableVouchers } = useSelector((state) => state.vouchers);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    dispatch(fetchVouchers());
+  }, [dispatch]);
+
+  const handleVoucherSelect = (selectedVoucher) => {
+    setVoucher(selectedVoucher.code);
+    if (selectedVoucher.type === "percent") {
+      setDiscount((cartTotalAmount * selectedVoucher.discount) / 100);
+    } else {
+      setDiscount(selectedVoucher.discount);
+    }
+    toast.success("Voucher applied successfully!", {
+      position: "bottom-right",
+      autoClose: 2000,
+    });
+    setShowVoucherModal(false);
+  };
+
+  const deliveryFees = {
+    standard: 5,
+    express: 15,
+  };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
       try {
-        const profileData = await getUserProfile();
-        setAddress(profileData.address || "");
-        dispatch(updateUserData(profileData));
+        const userData = await getUserProfile();
+        dispatch(updateUserData(userData));
+        setAddress(userData.address || "");
       } catch (err) {
-        toast.error("Failed to load address");
+        toast.error("Failed to load user data", {
+          position: "bottom-right",
+          autoClose: 2000,
+        });
       } finally {
         setLoading(false);
       }
     };
-    fetchProfile();
+
+    fetchUserData();
   }, [dispatch]);
 
   const handleSetAddress = async (event) => {
     event.preventDefault();
     try {
-      setAddress(newAddress);
-      const updatedUser = await updateUserProfile({
+      setLoading(true);
+      await updateUserProfile({
         ...user,
         address: newAddress,
       });
 
-      dispatch(updateUserData(updatedUser));
+      const freshUserData = await getUserProfile();
+      dispatch(updateUserData(freshUserData));
+      setAddress(freshUserData.address);
+      setNewAddress("");
+      setIsEditingAddress(false);
 
       toast.success("Address updated successfully!", {
-        position: "bottom-left",
+        position: "bottom-right",
         autoClose: 2000,
       });
     } catch (err) {
       toast.error("Failed to update address", {
-        position: "bottom-left",
-        autoClose: 3000,
+        position: "bottom-right",
+        autoClose: 2000,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleSetNewAddress = (event) => {
-    event.preventDefault();
-    setNewAddress(event.target.value);
+  const handleEditAddress = () => {
+    setNewAddress(address);
+    setIsEditingAddress(true);
   };
 
-  // Voucher
-  const vouchers = useSelector((state) => state.vouchers.items);
-  const status = useSelector((state) => state.vouchers.status);
+  const renderVoucherSection = () => (
+    <div className="paymoney-section">
+      <h3>
+        <FaTag /> Voucher
+      </h3>
+      <div className="voucher-input">
+        <input
+          type="text"
+          value={voucher}
+          onChange={(e) => setVoucher(e.target.value)}
+          placeholder="Enter voucher code"
+          readOnly
+        />
+        <button onClick={() => setShowVoucherModal(true)}>
+          Select Voucher
+        </button>
+      </div>
+      {discount > 0 && (
+        <p className="applied-voucher">Applied discount: ${discount}</p>
+      )}
+    </div>
+  );
 
-  const [showSelectVoucher, setShowSelectVoucher] = useState(false);
-  const openSelectVoucher = () => setShowSelectVoucher(true);
-  const closeSelectVoucher = () => setShowSelectVoucher(false);
-  const handleSelectVoucher = (voucher) => {
-    setSelectedVoucher(voucher);
-    closeSelectVoucher();
-  };
-
-  // Payment
-  const [paymentMethod, setPaymentMethod] = useState("transfer");
-  const handlePaymentChange = (e) => {
-    setPaymentMethod(e.target.value);
-  };
-
-  // Order
-  const [showModalOrderSuccess, setShowModalOrderSuccess] = useState(false);
-  const handlePlaceOrderSuccess = () => {
-    setShowModalOrderSuccess(true);
-  };
-
-  // QR
-  const [showQRCode, setShowQRCode] = useState(false);
-  const handleShowQRCode = () => {
-    setShowQRCode(true);
-  };
-  const handleCloseQRCode = () => {
-    setShowQRCode(false);
-  };
-
-  const handleClickTransferred = () => {
-    handleCloseQRCode();
-    handlePlaceOrderSuccess();
-  };
-
-  const handleClickOrder = () => {
-    paymentMethod === "cod" ? handlePlaceOrderSuccess() : handleShowQRCode();
-  };
-
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchVouchers());
+  const handlePlaceOrder = async () => {
+    if (!address) {
+      toast.error("Please provide a shipping address", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+      return;
     }
-  }, [dispatch, status]);
+
+    try {
+      setLoading(true);
+      // Mock API call to create order
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      dispatch(clearCart());
+      toast.success("Order placed successfully!", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+      navigate("/order-success");
+    } catch (err) {
+      toast.error("Failed to place order", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const finalAmount = cartTotalAmount + deliveryFees[deliveryMethod] - discount;
 
   return (
-    <div className="main">
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <div className="address-container">
-          <div className="address-header">
-            <HiLocationMarker />
-            Address
+    <div className="paymoney-container">
+      <div className="paymoney-content">
+        <div className="paymoney-sections">
+          {/* Address Section */}
+          <div className="paymoney-section">
+            <h3>
+              <FaHome /> Shipping Address
+            </h3>
+            {isEditingAddress ? (
+              <form onSubmit={handleSetAddress} className="address-form">
+                <textarea
+                  value={newAddress}
+                  onChange={(e) => setNewAddress(e.target.value)}
+                  placeholder="Enter your shipping address"
+                  required
+                />
+                <div className="address-actions">
+                  <button type="submit" disabled={loading}>
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsEditingAddress(false);
+                      setNewAddress("");
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="address-display">
+                <p>{address || "No address provided"}</p>
+                <button onClick={handleEditAddress}>Edit Address</button>
+              </div>
+            )}
           </div>
-          <div className="address">
-            <div className="user-name">
-              {user?.name} ({user?.phoneNumber})
+
+          {/* Delivery Method Section */}
+          <div className="paymoney-section">
+            <h3>
+              <FaTruck /> Delivery Method
+            </h3>
+            <div className="delivery-options">
+              <label className="delivery-option">
+                <input
+                  type="radio"
+                  value="standard"
+                  checked={deliveryMethod === "standard"}
+                  onChange={(e) => setDeliveryMethod(e.target.value)}
+                />
+                <div className="option-content">
+                  <div className="option-header">
+                    <span className="option-title">Standard Delivery</span>
+                    <span className="option-price">
+                      ${deliveryFees.standard}
+                    </span>
+                  </div>
+                  <p className="option-description">
+                    Delivery within 3-5 business days
+                  </p>
+                </div>
+              </label>
+              <label className="delivery-option">
+                <input
+                  type="radio"
+                  value="express"
+                  checked={deliveryMethod === "express"}
+                  onChange={(e) => setDeliveryMethod(e.target.value)}
+                />
+                <div className="option-content">
+                  <div className="option-header">
+                    <span className="option-title">Express Delivery</span>
+                    <span className="option-price">
+                      ${deliveryFees.express}
+                    </span>
+                  </div>
+                  <p className="option-description">
+                    Delivery within 1-2 business days
+                  </p>
+                </div>
+              </label>
             </div>
-            <div className="user-address">
-              {address || "No address available"}
+          </div>
+
+          {/* Payment Method Section */}
+          <div className="paymoney-section">
+            <h3>
+              <FaCreditCard /> Payment Method
+            </h3>
+            <div className="payment-options">
+              <label className="payment-option">
+                <input
+                  type="radio"
+                  value="cod"
+                  checked={paymentMethod === "cod"}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                />
+                <div className="option-content">
+                  <div className="option-header">
+                    <span className="option-title">Cash on Delivery</span>
+                    <FaMoneyBillWave className="option-icon" />
+                  </div>
+                  <p className="option-description">
+                    Pay with cash when your order arrives
+                  </p>
+                </div>
+              </label>
+              <label className="payment-option">
+                <input
+                  type="radio"
+                  value="bank"
+                  checked={paymentMethod === "bank"}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                />
+                <div className="option-content">
+                  <div className="option-header">
+                    <span className="option-title">Bank Transfer</span>
+                    <FaUniversity className="option-icon" />
+                  </div>
+                  <p className="option-description">
+                    Pay via bank transfer to our account
+                  </p>
+                </div>
+              </label>
             </div>
-            <div className="change-address" onClick={openChangeAddress}>
-              Change Address
-            </div>
-            {showChangeAddress && (
-              <ChangeAddress
-                handleSetNewAddress={handleSetNewAddress}
-                closeChangeAddress={closeChangeAddress}
-                handleSetAddress={handleSetAddress}
+          </div>
+
+          {/* Voucher Section */}
+          <div className="paymoney-section">
+            {renderVoucherSection()}
+            {showVoucherModal && (
+              <SelectVoucher
+                vouchers={availableVouchers}
+                onSelect={handleVoucherSelect}
+                onClose={() => setShowVoucherModal(false)}
               />
             )}
           </div>
         </div>
-      )}
-      <div className="voucher-container">
-        <div className="voucher-header">
-          <BiSolidDiscount />
-          Voucher
-        </div>
-        <div
-          className="select-voucher"
-          onClick={() => {
-            openSelectVoucher();
-          }}
-        >
-          Select Voucher
-        </div>
-        {selectedVoucher && (
-          <div className="selected-voucher">
-            <h4>Selected Voucher</h4>
-            <button onClick={() => setSelectedVoucher(null)}>
-              <IoClose />
-            </button>
-            <div>{selectedVoucher.title}</div>
-            <div></div>
-            <div>
-              Mã: <strong>{selectedVoucher.code}</strong>
+
+        {/* Order Summary Section */}
+        <div className="paymoney-summary">
+          <h3>Order Summary</h3>
+          <div className="summary-details">
+            <div className="summary-row">
+              <span>Subtotal:</span>
+              <span>${cartTotalAmount}</span>
+            </div>
+            <div className="summary-row">
+              <span>Delivery Fee:</span>
+              <span>${deliveryFees[deliveryMethod]}</span>
+            </div>
+            {discount > 0 && (
+              <div className="summary-row discount">
+                <span>Discount:</span>
+                <span>-${discount}</span>
+              </div>
+            )}
+            <div className="summary-row total">
+              <span>Total:</span>
+              <span>${finalAmount}</span>
             </div>
           </div>
-        )}
-        {showSelectVoucher && (
-          <SelectVoucher
-            vouchers={vouchers}
-            onSelect={handleSelectVoucher}
-            onClose={closeSelectVoucher}
-          />
-        )}
-      </div>
 
-      <div className="payment-method">
-        <div className="select-payment">
-          <MdPayment />
-          Select Payment Method
-        </div>
-
-        <select value={paymentMethod} onChange={handlePaymentChange}>
-          <option value="transfer">Transfer</option>
-          <option value="cod">Cash On Delivery</option>
-        </select>
-      </div>
-
-      {/* Modal Thông báo */}
-      {showQRCode && (
-        <div className="modal-overlay-qrcode">
-          <div className="modal-qrcode">
-            <div className="modal-qrcode-header">Transfer QR</div>
-            <div className="qrcode">
-              <img
-                src="https://res.cloudinary.com/dxxiercxx/image/upload/v1733408095/462571951_1088195269413055_2729153872552906077_n_hbbldp.jpg"
-                alt="QR-Code"
-              />
-            </div>
-
-            <button onClick={() => handleClickTransferred()}>
-              Transferred
+          <div className="paymoney-actions">
+            <button
+              className="back-button"
+              onClick={() => navigate("/confirm")}
+            >
+              <FaArrowLeft /> Back
+            </button>
+            <button
+              className="place-order-button"
+              onClick={handlePlaceOrder}
+              disabled={loading}
+            >
+              {loading ? "Processing..." : "Place Order"}
             </button>
           </div>
-        </div>
-      )}
-
-      {/* Modal Thông báo */}
-      {showModalOrderSuccess && (
-        <div className="modal-overlay-order-success">
-          <div className="modal-order-success">
-            <h2>Success!!!</h2>
-            <p>
-              Thank you for your order. We will process your order as soon as
-              possible.
-            </p>
-            <ButtonMenu to="/" className="back-homepage">
-              <FaArrowAltCircleLeft /> Back to HomePage
-            </ButtonMenu>
-          </div>
-        </div>
-      )}
-
-      <div className="paymoney-subtotal-container">
-        <div className="paymoney-subtotal">Subtotal:</div>
-        <div className="paymoney-amount">
-          $
-          {Math.max(
-            0,
-            selectedVoucher
-              ? cart.cartTotalAmount -
-                  (selectedVoucher.type === "value"
-                    ? selectedVoucher.discount
-                    : (selectedVoucher.discount * cart.cartTotalAmount) / 100)
-              : cart.cartTotalAmount
-          )}
-        </div>
-        <div className="order">
-          <button onClick={() => handleClickOrder()}>Order</button>
         </div>
       </div>
     </div>
   );
 };
+
 export default PayMoney;

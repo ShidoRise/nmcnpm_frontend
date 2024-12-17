@@ -1,80 +1,113 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { useEffect } from "react";
-import { FaArrowAltCircleLeft } from "react-icons/fa";
-import {  getTotals } from "../Features/cartSlice";
-import { ButtonMenu } from '../../ProductsMenu/ButtonMenu/ButtonMenu';
-import './Confirm.css'
-//   các tính năng của giỏ hàng
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { getTotals } from "../Features/cartSlice";
+import { getProductById } from "../../API/productsAPI";
+import { toast } from "react-toastify";
+import "./Confirm.css";
+
 const Confirm = () => {
-    const cart = useSelector((state) => state.cart);
-    const dispatch = useDispatch();
+  const { cartItems, cartTotalAmount } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.auth);
+  const [products, setProducts] = useState({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        dispatch(getTotals());
-      }, [cart, dispatch]);
+  useEffect(() => {
+    dispatch(getTotals());
+  }, [dispatch]);
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const productDetails = {};
+        for (const item of cartItems) {
+          const product = await getProductById(item.productId);
+          productDetails[item.productId] = product;
+        }
+        setProducts(productDetails);
+      } catch (error) {
+        console.error("Failed to fetch product details:", error);
+        toast.error("Failed to load product details");
+      }
+    };
+
+    if (cartItems.length > 0) {
+      fetchProducts();
+    }
+  }, [cartItems]);
+
+  const handleProceedToPayment = () => {
+    navigate("/paymoney");
+  };
+
+  if (!cartItems?.length) {
     return (
-        <div className="confirm-container">
-            <h2>Confirm</h2>
-            {/* kiểm tra giỏ hàng có trống không */}
-            {cart.cartItems.length === 0 ? (
-                <div className="confirm-empty">
-                    <p>Your cart is currently empty</p>
-                    <div className="start-shopping">
-                        <Link to="/products">
-                            <FaArrowAltCircleLeft />
-                            <span>Start Shopping</span>
-                        </Link>
-                    </div>
-                </div>
-            ) : (
-                // trạng thái giỏ hàng khi đã thêm hàng
-                <div>
-                    <div className="confirm-title">
-                        <h3 className="confirm-product">Product</h3>
-                        <h3 className="confirm-price">Price</h3>
-                        <h3 className="confirm-quantity">Quantity</h3>
-                        <h3 className="confirm-total">Total</h3>
-                    </div>
-                    <div className="confirm-items">
-                        {cart.cartItems?.map((cartItem) => (
-                            <div className="confirm-item" key = {cartItem.id}>
-                                <div className="confirm-productitem">
-                                    <div>
-                                        <h3>{cartItem.title}</h3>
-                                    </div>
-                                </div>
-                                <div className="confirm-product-price">${cartItem.price}</div>
-                                <div className="confirm-product-quantity">
-
-                                    <div className="confirm-count">{cartItem.cartQuantity}</div>
-
-                                </div>
-                                <div className="confirm-product-totalprice">
-                                    ${cartItem.price * cartItem.cartQuantity}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="confirm-summary">
-                        <Link to="/shoppingcart">
-
-                            <span className="back-cart">  <FaArrowAltCircleLeft /> Back to cart</span>
-                        </Link>
-                        <div className="confirm-checkout">
-                            <div className="confirm-subtotal">
-                                <span>Subtotal</span>
-                                <span className="confirm-amount">${cart.cartTotalAmount}</span>
-                            </div>
-                            {/* Chuyển sang thanh toán */}
-                            <ButtonMenu to="/paymoney">Pay</ButtonMenu>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </div>
+      <div className="confirm-empty">
+        <h2>Your cart is empty</h2>
+        <Link to="/products" className="confirm-back">
+          <FaArrowLeft /> Continue Shopping
+        </Link>
+      </div>
     );
-}
+  }
+
+  return (
+    <div className="confirm-container">
+      <div className="confirm-header">
+        <h2>Order Confirmation</h2>
+        <p>Please review your order before proceeding to payment</p>
+      </div>
+
+      <div className="confirm-content">
+        <div className="confirm-items-wrapper">
+          <div className="confirm-items">
+            {cartItems.map((item) => (
+              <div key={item.productId} className="confirm-item">
+                <div className="confirm-item-image">
+                  <img
+                    src={products[item.productId]?.image}
+                    alt={products[item.productId]?.title}
+                    onError={(e) => {
+                      e.target.src = "/placeholder.png";
+                    }}
+                  />
+                </div>
+                <div className="confirm-item-details">
+                  <h3>{products[item.productId]?.title}</h3>
+                  <p>Quantity: {item.quantity}</p>
+                  <p>Price: ${item.price}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="confirm-footer">
+          <div className="confirm-summary">
+            <h3>Order Summary</h3>
+            <div className="confirm-total">
+              <span>Total Amount:</span>
+              <span>${cartTotalAmount}</span>
+            </div>
+          </div>
+
+          <div className="confirm-actions">
+            <Link to="/shoppingcart" className="confirm-back-btn">
+              <FaArrowLeft /> Back to Cart
+            </Link>
+            <button
+              onClick={handleProceedToPayment}
+              className="confirm-proceed-btn"
+            >
+              Proceed to Payment <FaArrowRight />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Confirm;
