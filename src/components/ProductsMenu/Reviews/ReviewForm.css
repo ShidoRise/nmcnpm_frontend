@@ -73,3 +73,26 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.reset-button {
+  background: #f8f9fa;
+  color: #666;
+}
+
+.submit-button {
+  background: #762E2E;
+  color: white;
+}
+
+.reset-button:disabled,
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

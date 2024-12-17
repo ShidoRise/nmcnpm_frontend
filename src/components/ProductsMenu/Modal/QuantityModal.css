@@ -1,0 +1,137 @@
+.quantity-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.quantity-modal-container {
+  background: white;
+  border-radius: 8px;
+  padding: 0;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+}
+
+.quantity-modal-content {
+  padding: 20px;
+}
+
+.quantity-modal-title {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.quantity-modal-product {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.quantity-modal-image {
+  width: 100px;
+  height: 100px;
+}
+
+.quantity-modal-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.quantity-modal-details {
+  flex: 1;
+}
+
+.quantity-modal-details h4 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.quantity-modal-price {
+  font-size: 18px;
+  color: #762E2E;
+  font-weight: 600;
+}
+
+.quantity-modal-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.quantity-modal-button {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #666;
+}
+
+.quantity-modal-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity-modal-value {
+  font-size: 18px;
+  font-weight: 500;
+  min-width: 40px;
+  text-align: center;
+}
+
+.quantity-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.quantity-modal-cancel,
+.quantity-modal-confirm {
+  flex: 1;
+  padding: 12px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.quantity-modal-cancel {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.quantity-modal-confirm {
+  background: #762E2E;
+  color: white;
+}
+
+.quantity-modal-confirm:hover {
+  background: #5E1E1E;
+}
+
+@media (max-width: 768px) {
+  .quantity-modal-container {
+    width: 95%;
+    margin: 20px;
+  }
+}

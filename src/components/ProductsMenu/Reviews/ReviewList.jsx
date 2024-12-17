@@ -4,7 +4,7 @@ import { deleteReview } from "../../API/reviewAPI";
 import { toast } from "react-toastify";
 import "./ReviewList.css";
 
-const ReviewList = ({ reviews, setReviews }) => {
+const ReviewList = ({ reviews, setReviews, onEditReview }) => {
   const currentUser = useSelector((state) => state.auth.user);
 
   const handleDeleteReview = async (reviewId) => {
@@ -43,12 +43,20 @@ const ReviewList = ({ reviews, setReviews }) => {
                 </span>
               </div>
               {currentUser?.userId === review.userId && (
-                <button
-                  className="delete-review"
-                  onClick={() => handleDeleteReview(review.reviewId)}
-                >
-                  ×
-                </button>
+                <div className="review-actions">
+                  <button
+                    className="edit-review"
+                    onClick={() => onEditReview(review)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="delete-review"
+                    onClick={() => handleDeleteReview(review.reviewId)}
+                  >
+                    ×
+                  </button>
+                </div>
               )}
             </div>
             <div className="review-rating">

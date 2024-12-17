@@ -1,117 +1,165 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getUserCart, updateCartProducts } from "../../API/cartAPI";
 
-const initialState = {
-    cartItems: localStorage.getItem('cartItems')
-    ? JSON.parse(localStorage.getItem("cartItems")) : [],
-    cartTotalQuantity: 0,
-    cartTotalAmountL: 0,
+const loadState = () => {
+  try {
+    const cartItems = localStorage.getItem("cartItems");
+    const cartTotalAmount = localStorage.getItem("cartTotalAmount");
+    return {
+      cartItems: cartItems ? JSON.parse(cartItems) : [],
+      cartTotalAmount: cartTotalAmount ? parseFloat(cartTotalAmount) : 0,
+      isLoading: false,
+      error: null,
+    };
+  } catch (err) {
+    return {
+      cartItems: [],
+      cartTotalAmount: 0,
+      isLoading: false,
+      error: null,
+    };
+  }
 };
 
-const cartSlice = createSlice ({
-    name: "cart",
-    initialState,
-    reducers:{
+const saveState = (cartItems, cartTotalAmount) => {
+  try {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    localStorage.setItem("cartTotalAmount", cartTotalAmount.toString());
+  } catch (err) {
+    console.error("Failed to save cart state:", err);
+  }
+};
 
-        // thêm sản phẩm
-        addToCart(state, action){
-            const existingIndex = state.cartItems.findIndex(
-                (item) => item.id === action.payload.id
-            );
-            if(existingIndex >= 0){
-                state.cartItems[existingIndex] = {
-                    ...state.cartItems[existingIndex],
-                    cartQuantity: state.cartItems[existingIndex].cartQuantity + 1,
-                }
-                toast.info(`Increased ${state.cartItems[existingIndex].title} cart quantity`, {
-                    position: "bottom-left",
-                });
-            } else {
-            let tempProductItem = { ...action.payload, cartQuantity: 1 }
-            state.cartItems.push(tempProductItem);
-            toast.success(`${action.payload.title} added to cart`, {
-                position: "bottom-right",
-            });
-            }
+export const fetchCart = createAsyncThunk(
+  "cart/fetchCart",
+  async (_, { rejectWithValue }) => {
+    try {
+      const cart = await getUserCart();
 
-            state.cartTotalQuantity = state.cartItems.reduce((total, item) => total + item.cartQuantity, 0);
-            state.cartTotalAmount = state.cartItems.reduce(
-                (total, item) => total + item.price * item.cartQuantity,
-                0
-            );
+      if (!cart || !cart.Products) {
+        return {
+          Products: [],
+          totalPrice: 0,
+        };
+      }
 
-            localStorage.setItem("cartItems",JSON.stringify(state.cartItems));
+      const formattedProducts = cart.Products.map((product) => ({
+        productId: parseInt(product.id || product.productId),
+        quantity: parseInt(
+          product.quantity || product.CartProduct?.quantity || 1
+        ),
+        price: parseFloat(product.price || product.CartProduct?.price),
+      }));
+
+      return {
+        Products: formattedProducts,
+        totalPrice: cart.totalPrice || 0,
+      };
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const updateCartToBackend = createAsyncThunk(
+  "cart/updateCartToBackend",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const { cartItems, cartTotalAmount } = getState().cart;
+      console.log("Updating cart to backend:", cartItems, cartTotalAmount);
+      await updateCartProducts({
+        products: cartItems,
+        cartData: {
+          totalPrice: cartTotalAmount,
         },
-    //    xóa sản phẩm này khỏi giỏ hàng
-        removeFromCart(state, action) {
-            state.cartItems.map((cartItem) => {
-                if(cartItem.id === action.payload.id){
-                    const nextCartItems = state.cartItems.filter(
-                        (item) => item.id !== cartItem.id
-                    );
-                    state.cartItems = nextCartItems;
-                    toast.error(`${action.payload.title} removed from cart`, {
-                        position: "bottom-left",
-                    });
-                }
-                localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
-                return state;
-            });
-        },
-// bớt đi một số lượng hàng
-        decreaseCart(state, action) {
-            const itemIndex = state.cartItems.findIndex(
-                (item) => item.id === action.payload.id
-            );
+      });
+      return {
+        Products: cartItems,
+        totalPrice: cartTotalAmount,
+      };
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
 
-            if(state.cartItems[itemIndex].cartQuantity > 1){
-                state.cartItems[itemIndex].cartQuantity -= 1;
+const cartSlice = createSlice({
+  name: "cart",
+  initialState: loadState(),
+  reducers: {
+    addToCart: (state, action) => {
+      if (!action.payload?.id || !action.payload?.price) return;
 
-                toast.info(`Decreased ${action.payload.title} cart quantity`, {
-                    position: "bottom-left",
-                });
-            } else if(state.cartItems[itemIndex].cartQuantity === 1) {
-                const nextCartItems = state.cartItems.filter(
-                    (item) => item.id !== action.payload.id
-                );
-                state.cartItems = nextCartItems;
-                toast.error(`${action.payload.title} removed from cart`, {
-                    position: "bottom-left",
-                });
-            }
-            localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
-        },
-// xóa toàn bộ hàng đã thêm
-        clearCart(state, action){
-            state.cartItems = [];
-            toast.error(`Cart cleared`, {
-                position: "bottom-left",
-            });
-            localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
-        },
-// lấy tổng sản phẩm và tổng tiền
-        getTotals(state, action){
-            let {total, quantity} = state.cartItems.reduce(
-                (cartTotal, cartItem) => {
-                    const { price, cartQuantity } = cartItem;
-                    const itemTotal = price * cartQuantity
+      const { id, price, quantity = 1 } = action.payload;
+      const existingIndex = state.cartItems.findIndex(
+        (item) => item.productId === parseInt(id)
+      );
 
-                    cartTotal.total += itemTotal;
-                    cartTotal.quantity += cartQuantity;
+      if (existingIndex >= 0) {
+        state.cartItems[existingIndex].quantity += parseInt(quantity);
+      } else {
+        state.cartItems.push({
+          productId: parseInt(id),
+          quantity: parseInt(quantity),
+          price: parseFloat(price),
+        });
+      }
 
-                    return cartTotal;
-            },
-            {
-                total: 0,
-                quantity: 0,
-            });
-            total = parseFloat(total.toFixed(3));
-            state.cartTotalQuantity = quantity;
-            state.cartTotalAmount = total;
-        }
+      const total = state.cartItems.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+      state.cartTotalAmount = parseFloat(total.toFixed(2));
+      saveState(state.cartItems, state.cartTotalAmount);
     },
+
+    getTotals(state) {
+      if (!state.cartItems?.length) {
+        state.cartTotalAmount = 0;
+        saveState([], 0);
+        return;
+      }
+
+      const total = state.cartItems.reduce(
+        (sum, item) => sum + parseFloat(item.price) * parseInt(item.quantity),
+        0
+      );
+      console.log("Total amount:", total);
+      state.cartTotalAmount = parseFloat(total.toFixed(2));
+      console.log("Cart total amount:", state.cartTotalAmount);
+      saveState(state.cartItems, state.cartTotalAmount);
+    },
+
+    updateCart: (state, action) => {
+      state.cartItems = action.payload;
+      const total = action.payload.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+      state.cartTotalAmount = parseFloat(total.toFixed(2));
+      saveState(state.cartItems, state.cartTotalAmount);
+    },
+
+    clearCart: (state) => {
+      state.cartItems = [];
+      state.cartTotalAmount = 0;
+      localStorage.removeItem("cartItems");
+      localStorage.removeItem("cartTotalAmount");
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCart.fulfilled, (state, action) => {
+        state.cartItems = action.payload.Products;
+        state.cartTotalAmount = action.payload.totalPrice.toFixed(2);
+        state.isLoading = false;
+      })
+      .addCase(updateCartToBackend.fulfilled, (state) => {
+        state.isLoading = false;
+      });
+  },
 });
 
-export const { addToCart, removeFromCart, decreaseCart, clearCart, getTotals } = cartSlice.actions;
-
+export const { addToCart, getTotals, updateCart, clearCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;

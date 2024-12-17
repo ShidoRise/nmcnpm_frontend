@@ -12,7 +12,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const transformProductData = (product) => ({
   name: product.title,
-  price: parseFloat(product.price) * 100,
+  price: parseFloat(product.price),
   description: product.description,
   imageUrl: product.image,
   category: product.category,

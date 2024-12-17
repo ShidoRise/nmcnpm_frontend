@@ -45,7 +45,6 @@
 
 .home,
 .voucher,
-.shoppingcart
 .products,
 .sign-up {
   display: flex;
@@ -55,14 +54,6 @@
   font-size: 3rem;
 }
 
-.shoppingcart {
-
-  background-position: center;
-  background-size: fill;
-  background-repeat: no-repeat;
-  color: #fff;
-  font-size: 100px;
-}
 .voucher {
 
   background-position: center;

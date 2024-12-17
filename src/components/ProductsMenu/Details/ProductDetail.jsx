@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../../ShoppingCartMenu/Features/cartSlice";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addToCart,
+  updateCartToBackend,
+} from "../../ShoppingCartMenu/Features/cartSlice";
 import { getProductById } from "../../API/productsAPI";
 import { getReviewsByProductId } from "../../API/reviewAPI";
 import { BsArrowLeftCircle } from "react-icons/bs";
 import Reviews from "../Reviews/Reviews";
 import Cart from "../ProductCart/Cart";
 import { toast } from "react-toastify";
+import QuantityModal from "../Modal/QuantityModal ";
+import { FaArrowLeft } from "react-icons/fa";
 import "./ProductDetail.css";
 
 const ProductDetail = () => {
+  const user = useSelector((state) => state.auth.user);
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,6 +27,9 @@ const ProductDetail = () => {
   const [reviews, setReviews] = useState([]);
   const [showReviews, setShowReviews] = useState(false);
   const [reviewsLoading, setReviewsLoading] = useState(true);
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,54 +75,92 @@ const ProductDetail = () => {
   if (!product) return <div className="not-found">Product not found</div>;
 
   const handleAddToCart = () => {
-    dispatch(addToCart(product));
-    toast.success("Added to cart!", {
-      position: "bottom-right",
-      autoClose: 2000,
-    });
+    if (!user) {
+      toast.warning("Please login to add items to cart");
+      return;
+    }
+    setQuantity(1);
+    setModalIsOpen(true);
+  };
+
+  const handleConfirmAddToCart = async () => {
+    try {
+      dispatch(
+        addToCart({
+          ...product,
+          id: parseInt(id),
+          quantity: quantity,
+        })
+      );
+      await dispatch(updateCartToBackend()).unwrap();
+      setModalIsOpen(false);
+      toast.success("Product added to cart!", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+    } catch (error) {
+      toast.error("Failed to add product to cart", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+    }
   };
 
   const handleBuyNow = () => {
-    dispatch(addToCart(product));
+    // dispatch(addToCart(product));
     navigate("/confirm");
   };
 
   return (
-    <div className="card-detail-container container">
-      <Cart />
-      <div className="card-detail-infor">
-        <div className="card-detail-image col-5">
-          <div className="card-detailback">
-            <BsArrowLeftCircle onClick={() => navigate(-1)} />
+    <>
+      <div className="card-detail-container">
+        <Link to="/products" className="return-button">
+          <FaArrowLeft />
+        </Link>
+        <Cart />
+        <div className="card-detail-infor">
+          <div className="card-detail-image col-5">
+            <div className="card-detailback">
+              <BsArrowLeftCircle onClick={() => navigate(-1)} />
+            </div>
+            <img src={product.image} alt={product.title} />
           </div>
-          <img src={product.image} alt={product.title} />
+
+          <div className="card-detail-content col-7">
+            <h2>{product.title}</h2>
+            <p className="price">${product.price}</p>
+            <p className="description">{product.description}</p>
+            <div className="card-detail-buttons">
+              <button onClick={handleAddToCart}>Add to Cart</button>
+              <button onClick={handleBuyNow}>Buy Now</button>
+            </div>
+          </div>
         </div>
 
-        <div className="card-detail-content col-7">
-          <h2>{product.title}</h2>
-          <p className="price">${product.price}</p>
-          <p className="description">{product.description}</p>
-          <div className="card-detail-buttons">
-            <button onClick={handleAddToCart}>Add to Cart</button>
-            <button onClick={handleBuyNow}>Buy Now</button>
-          </div>
+        <div className="reviews-section">
+          <h3 onClick={() => setShowReviews(!showReviews)}>
+            Reviews ({reviews.length}) {showReviews ? "▼" : "▶"}
+          </h3>
+          {showReviews && (
+            <Reviews
+              productId={id}
+              reviews={reviews}
+              setReviews={setReviews}
+              isLoading={reviewsLoading}
+            />
+          )}
         </div>
       </div>
 
-      <div className="reviews-section">
-        <h3 onClick={() => setShowReviews(!showReviews)}>
-          Reviews ({reviews.length}) {showReviews ? "▼" : "▶"}
-        </h3>
-        {showReviews && (
-          <Reviews
-            productId={id}
-            reviews={reviews}
-            setReviews={setReviews}
-            isLoading={reviewsLoading}
-          />
-        )}
-      </div>
-    </div>
+      <QuantityModal
+        isOpen={modalIsOpen}
+        onClose={() => setModalIsOpen(false)}
+        onConfirm={handleConfirmAddToCart}
+        product={product}
+        quantity={quantity}
+        setQuantity={setQuantity}
+      />
+    </>
   );
 };
 

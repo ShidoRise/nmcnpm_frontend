@@ -8,7 +8,7 @@ export const getAllProducts = async () => {
     return response.data.map((product) => ({
       id: product.productId,
       title: product.name,
-      price: (product.price / 100).toFixed(2),
+      price: product.price.toFixed(2),
       image: product.imageUrl,
       description: product.description,
       category: product.category,
@@ -31,7 +31,7 @@ export const getProductById = async (id) => {
     return {
       id: product.productId,
       title: product.name,
-      price: (product.price / 100).toFixed(2),
+      price: product.price.toFixed(2),
       image: product.imageUrl,
       description: product.description,
       category: product.category,

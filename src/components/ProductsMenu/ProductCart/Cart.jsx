@@ -5,7 +5,11 @@ import { BsCart4 } from "react-icons/bs";
 import "./Cart.css";
 
 const Cart = () => {
-  const { cartTotalQuantity } = useSelector((state) => state.cart);
+  const { cartItems } = useSelector((state) => state.cart);
+  const cartTotalQuantity = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
   const [isCartUpdated, setIsCartUpdated] = useState(false);
 
   useEffect(() => {
