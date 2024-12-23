@@ -102,7 +102,13 @@
     gap: 1rem;
   }
   
-  .product-item {
+  .order-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .order-item {
     display: flex;
     gap: 1.5rem;
     padding: 1rem;
@@ -111,12 +117,12 @@
     transition: transform 0.2s;
   }
   
-  .product-item:hover {
+  .order-item:hover {
     transform: translateX(5px);
     background: #f3f4f6;
   }
   
-  .product-image {
+  .order-item-image {
     width: 120px;
     height: 120px;
     object-fit: cover;
@@ -124,59 +130,85 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-  .product-details {
+  .order-item-details {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
   
-  .product-details h4 {
+  .order-item-details h4 {
     color: #2c3e50;
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
   }
   
-  .product-info {
+  .order-item-info {
     display: flex;
     gap: 2rem;
     margin-top: 0.5rem;
     color: #6c757d;
   }
   
-  .order-total {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 2px solid #eee;
-    text-align: right;
-  }
-  
-  .order-total h4 {
-    color: #2c3e50;
-    font-size: 1.25rem;
-  }
-  
-  .order-loading {
-    text-align: center;
-    padding: 3rem;
-    color: #6c757d;
-    font-size: 1.1rem;
-  }
-  
   @media (max-width: 768px) {
-    .product-item {
+    .order-item {
       flex-direction: column;
       align-items: center;
       text-align: center;
     }
   
-    .product-info {
+    .order-item-info {
       justify-content: center;
     }
+  }
+
+  .order-list-empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    max-width: 600px;
+  }
   
-    .order-header {
-      flex-direction: column;
-      gap: 1rem;
-      text-align: center;
+  .order-list-empty h2 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .order-list-empty p {
+    color: #6c757d;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+  }
+  
+  .login-btn {
+    display: inline-block;
+    padding: 12px 32px;
+    background: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+  
+  .login-btn:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  @media (max-width: 768px) {
+    .order-list-empty {
+      margin: 1rem;
+      padding: 2rem 1rem;
+    }
+    
+    .order-list-empty h2 {
+      font-size: 1.5rem;
     }
   }

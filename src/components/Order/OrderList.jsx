@@ -3,15 +3,20 @@ import { useSelector } from "react-redux";
 import { getOrdersByUser } from "../API/ordersAPI";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 import "./OrderList.css";
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useSelector((state) => state.auth);
+  const { user, isLoggedIn } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchOrders = async () => {
+      if (!isLoggedIn) {
+        setLoading(false);
+        return;
+      }
       try {
         const response = await getOrdersByUser();
         setOrders(response);
@@ -23,10 +28,34 @@ const OrderList = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [isLoggedIn]);
+
+  if (!isLoggedIn) {
+    return (
+      <div className="order-list-empty">
+        <h2>Please Login</h2>
+        <p>You need to be logged in to view your orders.</p>
+        <Link to="/sign-up" className="login-btn">
+          Login to Continue
+        </Link>
+      </div>
+    );
+  }
 
   if (loading) {
     return <div className="order-loading">Loading orders...</div>;
+  }
+
+  if (!orders.length) {
+    return (
+      <div className="order-list-empty">
+        <h2>No Orders Yet</h2>
+        <p>Looks like you haven't placed any orders yet.</p>
+        <Link to="/products" className="continue-shopping-btn">
+          Continue Shopping
+        </Link>
+      </div>
+    );
   }
 
   return (
@@ -62,17 +91,17 @@ const OrderList = () => {
                 </p>
               </div>
 
-              <div className="order-products">
+              <div className="order-items-list">
                 {order.Products.map((product) => (
-                  <div key={product.productId} className="product-item">
+                  <div key={product.productId} className="order-item">
                     <img
                       src={product.imageUrl}
                       alt={product.name}
-                      className="product-image"
+                      className="order-item-image"
                     />
-                    <div className="product-details">
+                    <div className="order-item-details">
                       <h4>{product.name}</h4>
-                      <div className="product-info">
+                      <div className="order-item-info">
                         <p>Quantity: {product.OrderProduct.quantity}</p>
                         <p>Price: ${product.OrderProduct.price}</p>
                       </div>

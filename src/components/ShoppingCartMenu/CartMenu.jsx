@@ -40,6 +40,7 @@ const CartMenu = () => {
           const product = await getProductById(item.productId);
           productDetails[item.productId] = product;
         }
+        console.log("Product details:", productDetails);
         setProducts(productDetails);
       } catch (error) {
         console.error("Failed to fetch product details:", error);

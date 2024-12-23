@@ -142,7 +142,11 @@ const cartSlice = createSlice({
 
     clearCart: (state) => {
       state.cartItems = [];
+      state.cartTotalQuantity = 0;
       state.cartTotalAmount = 0;
+      state.items = [];
+      state.isLoading = false;
+      state.error = null;
       localStorage.removeItem("cartItems");
       localStorage.removeItem("cartTotalAmount");
     },
@@ -156,6 +160,11 @@ const cartSlice = createSlice({
       })
       .addCase(updateCartToBackend.fulfilled, (state) => {
         state.isLoading = false;
+      })
+      .addCase(clearCart, (state) => {
+        state.cartItems = [];
+        state.cartTotalQuantity = 0;
+        state.cartTotalAmount = 0;
       });
   },
 });

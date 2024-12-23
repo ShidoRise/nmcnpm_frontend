@@ -12,7 +12,13 @@ import {
 } from "react-icons/fa";
 import { updateUserProfile } from "../../API/accountApi";
 import { updateUserData } from "../../Account/authSlice";
-import { clearCart } from "../Features/cartSlice";
+import {
+  updateCart,
+  getTotals,
+  updateCartToBackend,
+  clearCart,
+  fetchCart,
+} from "../Features/cartSlice";
 import { fetchVouchers } from "../Features/VoucherSlice";
 import { createOrder } from "../../API/ordersAPI";
 import { getUserProfile } from "../../API/accountApi";
@@ -103,6 +109,18 @@ const PayMoney = () => {
     }
   };
 
+  const handleClearCart = async () => {
+    try {
+      await dispatch(clearCart());
+      await dispatch(updateCart([]));
+      await dispatch(getTotals());
+      await dispatch(updateCartToBackend()).unwrap();
+      await dispatch(fetchCart());
+    } catch (err) {
+      console.error("Failed to clear cart:", err);
+    }
+  };
+
   const createOrderAndRedirect = async () => {
     try {
       console.log("Creating order...");
@@ -122,7 +140,8 @@ const PayMoney = () => {
       };
       console.log("Order payload:", orderPayload);
       await createOrder(orderPayload);
-      dispatch(clearCart());
+      await handleClearCart();
+
       toast.success("Order placed successfully!", {
         position: "bottom-right",
         autoClose: 2000,
@@ -381,14 +400,12 @@ const PayMoney = () => {
         </div>
       </div>
 
-      {showBankModal && (
-        <BankTransferModal
-          isOpen={showBankModal}
-          onClose={() => setShowBankModal(false)}
-          onConfirm={handleBankTransferConfirm}
-          amount={finalAmount}
-        />
-      )}
+      <BankTransferModal
+        isOpen={showBankModal}
+        onClose={() => setShowBankModal(false)}
+        onConfirm={handleBankTransferConfirm}
+        amount={finalAmount}
+      />
     </>
   );
 };
