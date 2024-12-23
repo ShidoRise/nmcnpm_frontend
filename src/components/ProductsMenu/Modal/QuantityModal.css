@@ -74,8 +74,8 @@
 }
 
 .quantity-modal-button {
-  width: 36px;
-  height: 36px;
+  width: 50px;
+  height: 50px;
   border: 1px solid #ddd;
   border-radius: 50%;
   background: white;
@@ -84,6 +84,10 @@
   justify-content: center;
   cursor: pointer;
   color: #666;
+}
+
+.quantity-modal-button svg {
+  transform: scale(1.5);
 }
 
 .quantity-modal-button:disabled {

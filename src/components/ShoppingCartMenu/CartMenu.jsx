@@ -19,19 +19,19 @@ const CartMenu = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editableItems, setEditableItems] = useState([]);
   const [products, setProducts] = useState({});
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  // Fetch cart data
   useEffect(() => {
-    dispatch(fetchCart());
-  }, [dispatch]);
+    if (isLoggedIn) {
+      dispatch(fetchCart());
+    }
+  }, [dispatch, isLoggedIn]);
 
-  // Update editable items when cart changes
   useEffect(() => {
     setEditableItems(cartItems);
   }, [cartItems]);
 
-  // Fetch product details for each cart item
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -72,11 +72,9 @@ const CartMenu = () => {
 
   const handleSaveChanges = async () => {
     try {
-      // Update local state first
       await dispatch(updateCart(editableItems));
       await dispatch(getTotals());
 
-      // Update backend and wait for completion
       const result = await dispatch(updateCartToBackend()).unwrap();
 
       if (result) {
@@ -121,6 +119,19 @@ const CartMenu = () => {
 
   const visibleItems = editableItems.filter((item) => item.quantity > 0);
 
+  if (!isLoggedIn) {
+    return (
+      <div className="shopping-cart-container">
+        <div className="shopping-cart-empty">
+          <h2>Please log in to view your cart</h2>
+          <Link to="/sign-up" className="login-link">
+            Go to Login
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   if (isLoading) {
     return <div className="cart-loading">Loading cart...</div>;
   }
@@ -129,18 +140,18 @@ const CartMenu = () => {
     <div className="shopping-cart">
       <div className="shopping-cart-header">
         <h2>Shopping Cart</h2>
-        {!isEditing ? (
+        {cartItems.length > 0 && !isEditing ? (
           <button
             className="shopping-cart-edit"
             onClick={() => setIsEditing(true)}
           >
             <FaEdit /> Edit Cart
           </button>
-        ) : (
+        ) : cartItems.length > 0 && isEditing ? (
           <button className="shopping-cart-save" onClick={handleSaveChanges}>
             <FaSave /> Save Changes
           </button>
-        )}
+        ) : null}
       </div>
 
       {!cartItems?.length ? (

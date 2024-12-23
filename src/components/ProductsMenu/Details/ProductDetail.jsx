@@ -76,7 +76,10 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     if (!user) {
-      toast.warning("Please login to add items to cart");
+      toast.warning("Please login to add items to cart", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
       return;
     }
     setQuantity(1);
@@ -107,8 +110,17 @@ const ProductDetail = () => {
   };
 
   const handleBuyNow = () => {
-    // dispatch(addToCart(product));
-    navigate("/confirm");
+    if (!user) {
+      toast.warning("Please login to buy now", {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+      return;
+    }
+    toast.warning("This service is not available at this time", {
+      position: "bottom-right",
+      autoClose: 2000,
+    });
   };
 
   return (

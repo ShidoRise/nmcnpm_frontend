@@ -14,6 +14,7 @@ import ProductDetail from "./components/ProductsMenu/Details/ProductDetail";
 import PayMoney from "./components/ShoppingCartMenu/CheckoutCart/PayMoney";
 import Confirm from "./components/ShoppingCartMenu/CheckoutCart/Confirm";
 import ProfilePage from "./pages/ProfilePage";
+import Orders from "./pages/Orders";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/paymoney" element={<PayMoney />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/orders" element={<Orders />} />
       </Routes>
     </>
   );

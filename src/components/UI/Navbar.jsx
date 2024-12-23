@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../Account/authSlice";
@@ -12,7 +12,6 @@ const Navbar = () => {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
   const [dropdown, setDropdown] = useState(false);
-  const dropdownRef = useRef(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -103,6 +102,17 @@ const Navbar = () => {
                 onClick={closeMobileMenu}
               >
                 Voucher
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                to="/orders"
+                className="nav-links"
+                activeClassName="active"
+                onClick={closeMobileMenu}
+              >
+                My Orders
               </NavLink>
             </li>
 

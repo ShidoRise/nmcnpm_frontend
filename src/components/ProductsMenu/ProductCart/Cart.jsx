@@ -6,6 +6,7 @@ import "./Cart.css";
 
 const Cart = () => {
   const { cartItems } = useSelector((state) => state.cart);
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const cartTotalQuantity = cartItems.reduce(
     (total, item) => total + item.quantity,
     0
@@ -26,7 +27,7 @@ const Cart = () => {
     <div className={`cart-container ${isCartUpdated ? "cart-updated" : ""}`}>
       <Link to="/shoppingcart" className="cart-link">
         <BsCart4 className="cart-icon" />
-        {cartTotalQuantity > 0 && (
+        {isLoggedIn && cartTotalQuantity > 0 && (
           <span className="cart-badge">{cartTotalQuantity}</span>
         )}
       </Link>

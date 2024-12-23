@@ -102,8 +102,8 @@
 }
 
 .shopping-cart-quantity button {
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -113,6 +113,10 @@
   color: #666;
 }
 
+.shopping-cart-quantity svg {
+  transform: scale(1.5);
+}
+
 .shopping-cart-quantity span {
   width: 40px;
   text-align: center;
@@ -120,8 +124,8 @@
 }
 
 .shopping-cart-remove {
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   border: none;
   background: #fff5f5;
   color: #dc3545;
@@ -130,6 +134,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.shopping-cart-remove svg {
+  transform: scale(1.5);
 }
 
 .shopping-cart-quantity-display {
@@ -263,4 +271,18 @@
   font-size: 24px;
   font-weight: 600;
   color: #333;
+}
+
+.login-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.login-link:hover {
+  background-color: #45a049;
 }

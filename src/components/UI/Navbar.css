@@ -54,11 +54,11 @@
 
 .nav-menu {
   display: grid;
-  grid-template-columns: repeat(5, auto);
+  grid-template-columns: repeat(6, auto);
   grid-gap: 10px;
   list-style: none;
   text-align: center;
-  width: 60vw;
+  width: 70vw; 
   justify-content: end;
   margin-right: 2rem;
 }
@@ -142,7 +142,7 @@
     transition: all 0.5s ease;
   }
   .nav-item {
-    height: 130px;
+    height: 80px;
   }
 
   .nav-menu.active {
