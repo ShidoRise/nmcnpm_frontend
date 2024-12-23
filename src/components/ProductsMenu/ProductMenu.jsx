@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import {
   addToCart,
-  getTotals,
   updateCartToBackend,
 } from "../ShoppingCartMenu/Features/cartSlice";
 import { getAllProducts } from "../API/productsAPI";
@@ -38,8 +37,10 @@ const ProductMenu = () => {
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
-        const data = await getAllProducts();
-        setProducts(data);
+        const response = await getAllProducts();
+        const activeProducts = response.filter((product) => product.isActive);
+        setProducts(activeProducts);
+        setIsLoading(false);
       } catch (err) {
         setError(err.message);
         toast.error("Failed to load products", {

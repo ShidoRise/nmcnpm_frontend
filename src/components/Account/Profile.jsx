@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { getUserProfile } from "../API/accountApi";
+import {
+  getUserProfile,
+  updateUserProfile,
+  deleteUser,
+} from "../API/accountApi";
 import { updateUserData } from "./authSlice";
 import "./Profile.css";
-import { updateUserProfile } from "../API/accountApi";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../Account/authSlice";
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
 
   const [loading, setLoading] = useState(true);
@@ -49,6 +55,29 @@ const Profile = () => {
       }));
     }
   }, [user]);
+
+  const handleDeleteAccount = async () => {
+    if (
+      window.confirm(
+        "Are you sure you want to delete your account? This action cannot be undone."
+      )
+    ) {
+      try {
+        await deleteUser(user.id);
+        dispatch(logout());
+        toast.success("Account deleted successfully", {
+          position: "bottom-right",
+          autoClose: 2000,
+        });
+        navigate("/");
+      } catch (error) {
+        toast.error("Failed to delete account", {
+          position: "bottom-right",
+          autoClose: 2000,
+        });
+      }
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -173,6 +202,16 @@ const Profile = () => {
           Save Changes
         </button>
       </form>
+      <div className="danger-zone">
+        <h3>Danger Zone</h3>
+        <p>
+          Once you delete your account, there is no going back. Please be
+          certain.
+        </p>
+        <button onClick={handleDeleteAccount} className="delete-account-btn">
+          Delete Account
+        </button>
+      </div>
     </div>
   );
 };

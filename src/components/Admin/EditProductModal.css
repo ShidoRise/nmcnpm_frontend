@@ -1,0 +1,75 @@
+.edit-product-modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .edit-product-modal__content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .edit-product-modal__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .edit-product-modal__form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .edit-product-modal__form-group label {
+    font-weight: 500;
+  }
+  
+  .edit-product-modal__form-group input,
+  .edit-product-modal__form-group select,
+  .edit-product-modal__form-group textarea {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .edit-product-modal__form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  .edit-product-modal__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .edit-product-modal__actions button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .edit-product-modal__actions button[type="submit"] {
+    background: #4CAF50;
+    color: white;
+    border: none;
+  }
+  
+  .edit-product-modal__actions button[type="button"] {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+  }

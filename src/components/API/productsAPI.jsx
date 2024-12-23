@@ -12,7 +12,7 @@ export const getAllProducts = async () => {
       image: product.imageUrl,
       description: product.description,
       category: product.category,
-      reviewCount: product.reviews?.[0]?.reviewCount || 0,
+      isActive: product.isActive,
     }));
   } catch (err) {
     throw new Error(err.response?.data?.message || "Failed to fetch products");
@@ -41,5 +41,56 @@ export const getProductById = async (id) => {
       throw new Error("Product not found");
     }
     throw new Error(err.response?.data?.message || "Failed to fetch product");
+  }
+};
+
+export const deleteProduct = async (productId) => {
+  try {
+    const response = await axios.delete(
+      `${API_BASE_URL}/products/${productId}`,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to delete product");
+  }
+};
+
+export const updateProduct = async (productId, productData) => {
+  try {
+    const response = await axios.put(
+      `${API_BASE_URL}/products/${productId}`,
+      productData,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to update product");
+  }
+};
+
+export const updateProductStatus = async (productId, isActive) => {
+  try {
+    const response = await axios.put(
+      `${API_BASE_URL}/products/${productId}`,
+      { isActive },
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (err) {
+    throw new Error(
+      err.response?.data?.message || "Failed to update product status"
+    );
+  }
+};
+
+export const createProduct = async (productData) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/products`, productData, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to create product");
   }
 };

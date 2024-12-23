@@ -1,11 +1,13 @@
 .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
     background: #2c3e50;
     color: white;
-    height: 100vh;
-    width: 250px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
+    overflow-y: auto;
+    z-index: 1000;
   }
   
   .sidebar-header {

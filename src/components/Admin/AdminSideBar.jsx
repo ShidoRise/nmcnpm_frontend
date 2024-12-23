@@ -1,9 +1,17 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { FaUsers, FaBox, FaChartLine, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaUsers,
+  FaBox,
+  FaChartLine,
+  FaSignOutAlt,
+  FaClipboardList,
+} from "react-icons/fa";
 import { logout } from "../Account/authSlice";
 import "./AdminSideBar.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminSideBar = () => {
   const dispatch = useDispatch();
@@ -11,7 +19,10 @@ const AdminSideBar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/login");
+    navigate("/");
+    toast.success("Logged out successfully", {
+      position: "bottom-right",
+    });
   };
 
   return (
@@ -25,6 +36,9 @@ const AdminSideBar = () => {
         </NavLink>
         <NavLink to="/admin/products" className="nav-item">
           <FaBox /> Products Management
+        </NavLink>
+        <NavLink to="/admin/orders" className="nav-item">
+          <FaClipboardList /> Orders Management
         </NavLink>
         <NavLink to="/admin/revenue" className="nav-item">
           <FaChartLine /> Revenue Statistics

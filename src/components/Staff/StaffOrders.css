@@ -1,0 +1,88 @@
+.staff-orders {
+    padding: 30px;
+    margin-left: 250px;
+  }
+  
+  .staff-orders h2 {
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+  
+  .staff-orders__table-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: auto;
+  }
+  
+  .staff-orders__table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+  }
+  
+  .staff-orders__table th,
+  .staff-orders__table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .staff-orders__table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  .staff-orders__status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  
+  .status-pending {
+    background: #fff3cd;
+    color: #856404;
+  }
+  
+  .status-confirmed {
+    background: #cce5ff;
+    color: #004085;
+  }
+  
+  .status-preparing {
+    background: #d1ecf1;
+    color: #0c5460;
+  }
+  
+  .status-delivering {
+    background: #d4edda;
+    color: #155724;
+  }
+  
+  .status-completed {
+    background: #28a745;
+    color: white;
+  }
+  
+  .status-cancelled {
+    background: #f8d7da;
+    color: #721c24;
+  }
+  
+  .staff-orders__status-select {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+  }
+  
+  .staff-orders__loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+  }
+
+  

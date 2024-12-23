@@ -11,6 +11,17 @@ export const registerUser = async (user) => {
   }
 };
 
+export const registerUserForAdmin = async (user) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/users/`, user, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to register user");
+  }
+};
+
 export const loginUser = async (credentials) => {
   try {
     const response = await axios.post(
@@ -43,5 +54,38 @@ export const updateUserProfile = async (userData) => {
     return response.data;
   } catch (err) {
     throw new Error(err.response?.data?.message || "Failed to update profile");
+  }
+};
+
+export const getAllUsers = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/users`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to fetch users");
+  }
+};
+
+export const getUserById = async (userId) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/users/${userId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to fetch user");
+  }
+};
+
+export const deleteUser = async (userId) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/users/${userId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to delete user");
   }
 };

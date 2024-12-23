@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { getAllOrders, updateOrder } from "../API/ordersAPI";
+import { getAllOrders, updateOrder, deleteOrder } from "../API/ordersAPI";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
-import "./StaffOrders.css";
+import { FaTrash } from "react-icons/fa";
+import "./AdminOrders.css";
 
-const StaffOrders = () => {
+const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -32,6 +33,24 @@ const StaffOrders = () => {
     };
     fetchOrders();
   }, []);
+
+  const handleDelete = async (orderId) => {
+    if (window.confirm("Are you sure you want to delete this order?")) {
+      try {
+        await deleteOrder(orderId);
+        setOrders((prevOrders) =>
+          prevOrders.filter((order) => order.orderId !== orderId)
+        );
+        toast.success("Order deleted successfully", {
+          position: "bottom-right",
+        });
+      } catch (error) {
+        toast.error("Failed to delete order", {
+          position: "bottom-right",
+        });
+      }
+    }
+  };
 
   const handleStatusUpdate = async (orderId, newStatus) => {
     try {
@@ -105,6 +124,13 @@ const StaffOrders = () => {
                       </option>
                     ))}
                   </select>
+                  <button
+                    onClick={() => handleDelete(order.orderId)}
+                    className="staff-orders__delete-btn"
+                    title="Delete Order"
+                  >
+                    <FaTrash />
+                  </button>
                 </td>
               </tr>
             ))}
@@ -115,4 +141,4 @@ const StaffOrders = () => {
   );
 };
 
-export default StaffOrders;
+export default AdminOrders;

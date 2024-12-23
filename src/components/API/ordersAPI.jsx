@@ -34,3 +34,44 @@ export const getOrdersByUser = async () => {
     throw new Error(err.response?.data?.message || "Failed to fetch orders");
   }
 };
+
+export const getAllOrders = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/orders`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(
+      err.response?.data?.message || "Failed to fetch all orders"
+    );
+  }
+};
+
+export const updateOrder = async (orderId, status) => {
+  try {
+    const response = await axios.patch(
+      `${API_BASE_URL}/orders/${orderId}`,
+      {
+        products: [],
+        status: status,
+      },
+      { withCredentials: true }
+    );
+    console.log("Updated order:", response.data);
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to update order");
+  }
+};
+
+export const deleteOrder = async (orderId) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/orders/${orderId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to delete order");
+  }
+};

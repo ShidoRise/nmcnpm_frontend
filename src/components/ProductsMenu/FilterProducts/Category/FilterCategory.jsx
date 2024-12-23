@@ -5,8 +5,8 @@ export const FilterCategory = ({ selectedCategory, setSelectedCategory }) => {
   const categories = [
     { label: "All", value: "all" },
     { label: "Pizza", value: "Pizza" },
-    { label: "Burger", value: "Burger" },
-    { label: "Tacos", value: "Tacos" },
+    { label: "Chicken", value: "Chicken" },
+    { label: "Cake", value: "Cake" },
     { label: "Drink", value: "Drink" },
   ];
 

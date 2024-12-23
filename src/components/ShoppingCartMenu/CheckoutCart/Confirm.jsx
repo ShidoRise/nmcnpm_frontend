@@ -9,7 +9,6 @@ import "./Confirm.css";
 
 const Confirm = () => {
   const { cartItems, cartTotalAmount } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.auth);
   const [products, setProducts] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();

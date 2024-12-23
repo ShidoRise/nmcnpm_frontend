@@ -18,6 +18,7 @@ import Orders from "./pages/Orders";
 import AdminDashboard from "./pages/AdminDashBoard";
 import AdminProducts from "./components/Admin/AdminProducts";
 import AdminUsers from "./components/Admin/AdminUsers";
+import AdminOrders from "./components/Admin/AdminOrders";
 
 import StaffDashboard from "./pages/StaffDashBoard";
 import StaffOrders from "./components/Staff/StaffOrders";
@@ -46,6 +47,7 @@ function App() {
         >
           <Route path="users" element={<AdminUsers />} />
           <Route path="products" element={<AdminProducts />} />
+          <Route path="orders" element={<AdminOrders />} />
           <Route path="revenue" element={<AdminRevenue />} />
         </Route>
 
