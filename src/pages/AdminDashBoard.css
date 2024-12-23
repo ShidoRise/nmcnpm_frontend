@@ -1,0 +1,10 @@
+.admin-layout {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    min-height: 100vh;
+  }
+  
+  .admin-content {
+    padding: 30px;
+    background: #f8f9fa;
+  }

@@ -1,5 +1,5 @@
-import { Outlet } from 'react-router-dom';
-import AdminSidebar from '../components/Admin/AdminSideBar';
+import { Outlet } from "react-router-dom";
+import AdminSidebar from "../components/Admin/AdminSideBar";
 
 const AdminDashboard = () => {
   return (

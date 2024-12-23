@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./components/UI/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 import Home from "./pages/Home";
@@ -18,11 +17,11 @@ import Orders from "./pages/Orders";
 
 import AdminDashboard from "./pages/AdminDashBoard";
 import AdminProducts from "./components/Admin/AdminProducts";
-import AdminOrders from "./components/Admin/AdminOrders";
 import AdminUsers from "./components/Admin/AdminUsers";
 
-import StaffDashboard from "./pages/StaffDashboard";
+import StaffDashboard from "./pages/StaffDashBoard";
 import StaffOrders from "./components/Staff/StaffOrders";
+import AdminRevenue from "./components/Admin/AdminRevenue";
 
 const PublicLayout = ({ children }) => (
   <>
@@ -32,9 +31,6 @@ const PublicLayout = ({ children }) => (
 );
 
 function App() {
-  const { user } = useSelector((state) => state.auth);
-  const isAdminOrStaff = user?.role === "ADMIN" || user?.role === "STAFF";
-
   return (
     <>
       <ToastContainer />
@@ -43,21 +39,21 @@ function App() {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute allowedRoles={["admin"]}>
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
               <AdminDashboard />
             </ProtectedRoute>
           }
         >
-          <Route path="products" element={<AdminProducts />} />
-          <Route path="orders" element={<AdminOrders />} />
           <Route path="users" element={<AdminUsers />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="revenue" element={<AdminRevenue />} />
         </Route>
 
         {/* Staff Routes */}
         <Route
           path="/staff"
           element={
-            <ProtectedRoute allowedRoles={["staff"]}>
+            <ProtectedRoute allowedRoles={["STAFF"]}>
               <StaffDashboard />
             </ProtectedRoute>
           }

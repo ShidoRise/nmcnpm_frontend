@@ -3,7 +3,6 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess, loginFail } from "./authSlice";
-import { store } from "../../index"; // Adjust the path as necessary
 import "./Login.css";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -27,33 +26,23 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const userData = await loginUser({
+      const response = await loginUser({
         username: username.current.value,
         password: password.current.value,
       });
+
+      const userData = response.user;
       const profileData = await getUserProfile();
 
       dispatch(loginSuccess({ ...userData, ...profileData }));
 
       try {
-        console.log("2. After login, dispatching fetchCart");
         const cartResult = await dispatch(fetchCart()).unwrap();
-        console.log("Cart fetch result:", cartResult);
-        // Get current cart state
-        const beforeState = store.getState().cart;
-        console.log("Cart state before update:", beforeState.cartItems);
 
         if (cartResult.Products && cartResult.Products.length > 0) {
           await dispatch(getTotals());
           await dispatch(updateCartToBackend()).unwrap();
         }
-
-        const afterState = store.getState().cart;
-        console.log("Cart state after update:", afterState.cartItems);
-        console.log(
-          "Cart total amount after update:",
-          afterState.cartTotalAmount
-        );
       } catch (cartError) {
         console.error("Failed to fetch cart:", cartError);
         toast.error("Failed to sync cart with server", {
@@ -67,7 +56,17 @@ const Login = () => {
         autoClose: 2000,
       });
 
-      navigate("/");
+      switch (response.role) {
+        case "ADMIN":
+          navigate("/admin");
+          break;
+        case "STAFF":
+          navigate("/staff");
+          break;
+        default:
+          navigate("/");
+          break;
+      }
     } catch (error) {
       dispatch(loginFail(error.message));
 
