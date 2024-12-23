@@ -17,7 +17,6 @@ import {
   getTotals,
   updateCartToBackend,
   clearCart,
-  fetchCart,
 } from "../Features/cartSlice";
 import { fetchVouchers } from "../Features/VoucherSlice";
 import { createOrder } from "../../API/ordersAPI";
@@ -197,7 +196,11 @@ const PayMoney = () => {
     }
   };
 
-  const finalAmount = cartTotalAmount + deliveryFees[deliveryMethod] - discount;
+  const finalAmount = (
+    cartTotalAmount +
+    deliveryFees[deliveryMethod] -
+    discount
+  ).toFixed(2);
 
   return (
     <>

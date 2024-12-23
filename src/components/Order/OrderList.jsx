@@ -30,6 +30,22 @@ const OrderList = () => {
     fetchOrders();
   }, [isLoggedIn]);
 
+  const getShippingMethodDisplay = (method) => {
+    const methods = {
+      standard: "Standard Delivery",
+      express: "Express Delivery",
+    };
+    return methods[method] || method;
+  };
+
+  const getPaymentMethodDisplay = (method) => {
+    const methods = {
+      cod: "Cash on Delivery",
+      bank: "Bank Transfer",
+    };
+    return methods[method] || method;
+  };
+
   if (!isLoggedIn) {
     return (
       <div className="order-list-empty">
@@ -84,10 +100,12 @@ const OrderList = () => {
                   <strong>Shipping Address:</strong> {order.address}
                 </p>
                 <p>
-                  <strong>Shipping Method:</strong> {order.shippingMethod}
+                  <strong>Shipping Method:</strong>{" "}
+                  {getShippingMethodDisplay(order.shippingMethod)}
                 </p>
                 <p>
-                  <strong>Payment Method:</strong> {order.paymentMethod}
+                  <strong>Payment Method:</strong>{" "}
+                  {getPaymentMethodDisplay(order.paymentMethod)}
                 </p>
               </div>
 
