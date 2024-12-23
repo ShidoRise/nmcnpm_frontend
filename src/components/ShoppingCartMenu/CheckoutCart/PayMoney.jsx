@@ -111,11 +111,16 @@ const PayMoney = () => {
 
   const handleClearCart = async () => {
     try {
+      const zeroedCart = cartItems.map((item) => ({
+        productId: item.productId,
+        quantity: 0,
+        price: item.price,
+      }));
+
       await dispatch(clearCart());
-      await dispatch(updateCart([]));
+      await dispatch(updateCart(zeroedCart));
       await dispatch(getTotals());
       await dispatch(updateCartToBackend()).unwrap();
-      await dispatch(fetchCart());
     } catch (err) {
       console.error("Failed to clear cart:", err);
     }
